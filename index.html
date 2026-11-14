@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#101a36">
+  <title>Stockholm – World of Pixels</title>
+  <link rel="preconnect" href="https://tiles.openfreemap.org">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.18.0/dist/maplibre-gl.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root { --navy:#111934; --navy2:#24395c; --gold:#e4c77f; --gold2:#8a693a; --cream:#fff2c9; --blue:#5fa8d2; --ink:#081429; }
+    * { box-sizing:border-box; }
+    html,body { width:100%; height:100%; margin:0; overflow:hidden; background:var(--ink); color:var(--cream); font-family:system-ui,-apple-system,Segoe UI,sans-serif; }
+    button,input,select { font:inherit; }
+    button { cursor:pointer; touch-action:manipulation; }
+    .pixel-font { font-family:'Press Start 2P','Courier New',monospace; font-weight:normal; }
+    #map { position:absolute; inset:0; background:#a8c379; }
+    .maplibregl-control-container .maplibregl-ctrl-bottom-right { bottom:100px; right:6px; }
+    .maplibregl-ctrl-attrib { background:rgba(255,244,210,.88)!important; font-size:10px!important; }
+    .maplibregl-ctrl-attrib a { color:#224260!important; }
+    #pixel { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; image-rendering:pixelated; z-index:2; }
+    #pixelTint { position:absolute; inset:0; pointer-events:none; z-index:2; opacity:.09; background-image:repeating-linear-gradient(0deg,rgba(12,15,38,.17) 0,rgba(12,15,38,.17) 1px,transparent 1px,transparent 6px); }
+    #places { position:absolute; inset:0; pointer-events:none; z-index:3; overflow:hidden; }
+    .place { position:absolute; translate:-50% -100%; pointer-events:auto; display:flex; align-items:center; flex-direction:column; gap:0; cursor:pointer; white-space:nowrap; filter:drop-shadow(2px 2px 0 #15213a); user-select:none; }
+    .place:focus-visible { outline:3px solid #fff; }
+    .place svg { width:31px; height:31px; shape-rendering:crispEdges; image-rendering:pixelated; filter:drop-shadow(1px 2px 0 #071a29); }
+    .place span { background:#fff0c2; border:2px solid #54462e; outline:1px solid #fff8db; padding:4px 6px; font:9px/1.4 'Press Start 2P',monospace; color:#202742; }
+    #player { position:absolute; display:none; z-index:4; transform:translate(-50%,-80%); pointer-events:none; }
+    #player .player-pin { width:16px;height:16px; background:#f7df7f; border:4px solid #122b66; outline:2px solid #f9e6a0; box-shadow:3px 3px 0 #0a1531; transform:rotate(45deg); }
+    header { position:absolute; top:0; left:0; right:0; z-index:5; display:flex; align-items:center; justify-content:space-between; min-height:70px; gap:10px; padding:11px 16px 12px; background:linear-gradient(#132144,#1a2c4c); border-bottom:4px solid #d4ad66; box-shadow:0 4px 0 #57452d; }
+    .title { min-width:0; display:flex; flex-direction:column; gap:6px; }
+    .title strong { font-size:clamp(12px,1.7vw,20px); letter-spacing:.02em; line-height:1.6; }
+    .title small { color:#edca7d; font-size:9px; letter-spacing:.15em; }
+    .corner { font:13px/1 'Press Start 2P',monospace; color:var(--gold); }
+    .rpgbox { background:linear-gradient(145deg,#283f71,#101936 82%); border:3px solid #f0dba4; outline:2px solid #61502d; box-shadow:4px 4px 0 rgba(8,13,28,.65),inset 0 0 0 2px #55709d; border-radius:3px; }
+    .panel { position:absolute; z-index:5; top:91px; left:16px; width:min(310px,calc(100vw - 95px)); padding:12px; }
+    .panel label { color:#f1d78f; display:block; font-size:9px; letter-spacing:.08em; margin:0 0 7px; }
+    .searchrow { display:flex; gap:6px; }
+    .searchrow input { padding:10px; width:100%; min-width:0; background:#101a38; border:2px solid #9caed0; outline:none; color:white; font-size:14px; border-radius:0; }
+    .searchrow input:focus { border-color:#f1db9a; }
+    .searchrow button,.smallbutton { color:#fff0c5; border:2px solid #d5b77b; padding:8px 10px; background:#2b437b; box-shadow:2px 2px 0 #08142a; }
+    .searchrow button:hover,.smallbutton:hover { background:#3b5693; }
+    .smallheading { color:#eccb83; font:9px/1.8 'Press Start 2P',monospace; margin:12px 0 7px; }
+    .shortcuts { display:flex; flex-wrap:wrap; gap:6px; }
+    .shortcuts button { border:1px solid #839bc0; background:#1d2f54; color:#ecf2ff; border-radius:0; font-size:12px; padding:7px 9px; }
+    .shortcuts button:hover { border-color:#ffe7a1; }
+    .righttools { position:absolute; z-index:5; top:90px; right:16px; display:flex; flex-direction:column; gap:9px; }
+    .tool { width:48px;height:48px; color:#fff0c5; background:#213867; border:3px solid #ebcb86; outline:2px solid #634a2a; border-radius:2px; font-weight:800; font-size:24px; box-shadow:3px 3px 0 #0d1830; }
+    .tool:active { transform:translate(2px,2px); }
+    .info { position:absolute; z-index:5; left:16px; bottom:102px; padding:12px; width:min(370px,calc(100% - 32px)); pointer-events:none; }
+    .info small { color:#f2cf86; font:9px/1.6 'Press Start 2P',monospace; }
+    .info h2 { font-size:17px; line-height:1.3; margin:5px 0 5px; }
+    .info p { color:#ecf3ff; font-size:12px; line-height:1.4; margin:0; }
+    footer { position:absolute; z-index:5; bottom:0; left:0; right:0; min-height:85px; padding:10px 16px calc(10px + env(safe-area-inset-bottom)); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:9px; color:#f2e1ab; background:linear-gradient(160deg,#1d3057,#101931); border-top:4px solid #d8b775; box-shadow:0 -4px 0 #5e4b32; }
+    .status { display:flex; align-items:center; gap:9px; font-size:11px; }
+    .status .light { width:10px;height:10px;background:#8dcf75; box-shadow:0 0 0 2px #385b41; }
+    .footerbuttons { display:flex; gap:9px; align-items:center; }
+    .footerbuttons button { font-size:12px; }
+    #credits { position:absolute; z-index:6; right:8px; bottom:93px; background:rgba(248,234,192,.91); color:#23314a; padding:2px 5px; font:10px/1.5 system-ui,sans-serif; }
+    #credits a { color:#204e6f; }
+    #warning { display:none; position:absolute; z-index:9; left:50%; top:48%; transform:translate(-50%,-50%); width:min(400px,90vw); padding:20px; font-size:14px; line-height:1.6; }
+    #warning strong { color:#f3d58e; }
+    #warning button { margin-top:12px; }
+    @media(max-width:630px) {
+      header { min-height:62px; padding:8px 10px; }
+      .title strong { font-size:10px; }
+      .title small { font-size:8px; letter-spacing:.05em; }
+      .corner { font-size:9px; }
+      .panel { top:77px; left:9px; width:min(280px,calc(100vw - 74px)); padding:9px; }
+      .panel label { font-size:8px; }
+      .righttools { right:10px;top:78px;gap:8px; }
+      .tool { width:42px;height:42px;font-size:20px; }
+      .info { left:9px;bottom:92px;padding:9px;width:min(335px,calc(100vw - 18px)); }
+      .info h2 { font-size:15px; }
+      .info p { font-size:11px; }
+      footer { min-height:80px; padding:9px 10px calc(9px + env(safe-area-inset-bottom)); }
+      .footerbuttons button { padding:7px; font-size:11px; }
+      .status { font-size:10px; }
+      .maplibregl-control-container .maplibregl-ctrl-bottom-right { bottom:86px; }
+    }
+    @media(max-height:600px) {
+      .shortcuts { display:none; }
+      .panel { max-width:265px; }
+      .info { bottom:89px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="map" aria-label="Interaktiv karta över Stockholm"></div>
+  <canvas id="pixel" aria-hidden="true"></canvas>
+  <div id="pixelTint" aria-hidden="true"></div>
+  <div id="places"></div>
+  <div id="player"><div class="player-pin"></div></div>
+  <header>
+    <div class="corner">✦</div>
+    <div class="title"><strong class="pixel-font">STOCKHOLM</strong><small>WORLD OF PIXELS · PROTOTYPE v0.1.1</small></div>
+    <div class="corner">✦</div>
+  </header>
+  <section class="panel rpgbox" aria-label="Platssökning">
+    <label class="pixel-font" for="search">SELECT DESTINATION</label>
+    <form class="searchrow" id="searchForm">
+      <input id="search" type="search" autocomplete="off" list="destinations" placeholder="Stadsdel eller förort..." aria-label="Sök bland platser">
+      <datalist id="destinations"></datalist>
+      <button type="submit" aria-label="Sök">➜</button>
+    </form>
+    <div class="smallheading">FAST TRAVEL</div>
+    <div class="shortcuts" id="shortcuts"></div>
+  </section>
+  <div class="righttools" aria-label="Kartkontroller">
+    <button class="tool" id="zoomIn" title="Zooma in" aria-label="Zooma in">+</button>
+    <button class="tool" id="zoomOut" title="Zooma ut" aria-label="Zooma ut">−</button>
+    <button class="tool" id="locate" title="Min position" aria-label="Visa min position">⌖</button>
+  </div>
+  <section class="info rpgbox" id="info" aria-live="polite">
+    <small>WORLD MAP / QUEST LOG</small>
+    <h2 id="placeName">Välkommen till Stockholm!</h2>
+    <p id="placeDesc">Utforska stadens riktiga geografi som en 16-bitars RPG-värld. Dra, zooma eller välj en destination.</p>
+  </section>
+  <div id="credits">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a> · <a href="https://openfreemap.org/" target="_blank" rel="noopener noreferrer">OpenFreeMap</a></div>
+  <footer>
+    <div class="status"><span class="light" id="statusLight"></span><span id="statusText">Laddar världskartan...</span></div>
+    <div class="footerbuttons">
+      <button class="smallbutton" id="togglePixel" type="button">PIXEL 4×</button>
+      <button class="smallbutton" id="reset" type="button">STOCKHOLM ⌂</button>
+    </div>
+  </footer>
+  <section class="rpgbox" id="warning" role="alert"><strong>Kartan kunde inte laddas.</strong><div id="warningText">Se till att du är uppkopplad och prova igen.</div><button class="smallbutton" onclick="location.reload()">Försök igen</button></section>
+  <script type="module">
+  import * as maplibregl from "https://unpkg.com/maplibre-gl@6.18.0/dist/maplibre-gl.mjs";
+  'use strict';
+  const STOCKHOLM=[18.0686,59.3293];
+  const ZOOM_START=10.7;
+  const PLACES=[
+    {name:'Stockholm',lng:18.0686,lat:59.3293,kind:'capital',zoom:10.3,detail:'Huvudstaden – din startpunkt i världskartan.'},
+    {name:'Gamla stan',lng:18.0705,lat:59.3251,kind:'castle',zoom:12.1,detail:'Den gamla stadskärnan, med kullersten och kungliga slottet.'},
+    {name:'Södermalm',lng:18.0648,lat:59.3123,kind:'town',zoom:12.0,detail:'Söders höjder och kvarter.'},
+    {name:'Kungsholmen',lng:18.0350,lat:59.3313,kind:'town',zoom:12.3,detail:'Ön väster om city, med Stadshuset i öster.'},
+    {name:'Östermalm',lng:18.0916,lat:59.3383,kind:'town',zoom:12.3,detail:'Kvarter och parker nordost om city.'},
+    {name:'Djurgården',lng:18.1185,lat:59.3242,kind:'forest',zoom:12.1,detail:'Gröna områden, museer och kungliga stråk.'},
+    {name:'Bromma',lng:17.9376,lat:59.3469,kind:'town',zoom:10.9,detail:'Förorter och grönområden väster om innerstaden.'},
+    {name:'Solna',lng:18.0014,lat:59.3613,kind:'town',zoom:11.3,detail:'Stad och parker precis norr om Stockholm.'},
+    {name:'Sundbyberg',lng:17.9702,lat:59.3613,kind:'town',zoom:11.8,detail:'En egen stad mitt i storstaden.'},
+    {name:'Danderyd',lng:18.0574,lat:59.4053,kind:'town',zoom:11.5,detail:'Norr om innerstaden, intill Edsviken.'},
+    {name:'Sollentuna',lng:17.9485,lat:59.4284,kind:'town',zoom:11.0,detail:'Sjöar och tätorter norr om Stockholm.'},
+    {name:'Järfälla',lng:17.8341,lat:59.4225,kind:'town',zoom:10.8,detail:'Väster om Sollentuna och norr om Bromma.'},
+    {name:'Täby',lng:18.0687,lat:59.4439,kind:'town',zoom:11.0,detail:'Stora bostadsområden och natur i nordost.'},
+    {name:'Lidingö',lng:18.1775,lat:59.3662,kind:'town',zoom:10.9,detail:'Grön ö öster om city.'},
+    {name:'Nacka',lng:18.1646,lat:59.3105,kind:'town',zoom:10.9,detail:'Klippor, skog och vatten öster om Södermalm.'},
+    {name:'Huddinge',lng:17.9822,lat:59.2370,kind:'town',zoom:11.0,detail:'Södra Stockholm med stora grönområden.'},
+    {name:'Botkyrka',lng:17.8244,lat:59.2390,kind:'town',zoom:11.3,detail:'Söderväst om staden, mellan sjöar och skog.'},
+    {name:'Haninge',lng:18.1447,lat:59.1685,kind:'town',zoom:11.0,detail:'Porten mot skärgård och naturområden i söder.'},
+    {name:'Södertälje',lng:17.6253,lat:59.1955,kind:'town',zoom:10.3,detail:'Staden vid kanalen som förbinder Mälaren med havet.'},
+    {name:'Upplands Väsby',lng:17.9126,lat:59.5184,kind:'town',zoom:10.5,detail:'Norrut mot Arlanda, med tätorter och natur.'},
+    {name:'Bromma flygplats',lng:17.9419,lat:59.3544,kind:'airport',zoom:12.9,detail:'Flygplatsen i Bromma.'},
+    {name:'Tyresta nationalpark',lng:18.2666,lat:59.1796,kind:'forest',zoom:11.5,detail:'Gammelskog och sjöar sydost om staden.'}
+  ];
+  const icons = {
+    town:`<path fill="#17284a" d="M1 7h14v8H1zM2 4h4v4H2zM10 4h4v4h-4z"/><path fill="#b2a69a" d="M2 8h12v6H2zM3 5h3v4H3zM10 5h3v4h-3z"/><path fill="#b84d4a" d="M1 6l4-4 4 4zM8 6l4-4 4 4z"/><path fill="#314366" d="M7 10h3v4H7zM3 8h2v2H3zM11 8h2v2h-2z"/>`,
+    capital:`<path fill="#14203d" d="M1 7h14v8H1zM3 3h3v5H3zM10 3h3v5h-3zM7 1h2v10H7z"/><path fill="#efcfa3" d="M2 8h12v6H2zM4 4h2v5H4zM10 4h2v5h-2zM7 3h2v6H7z"/><path fill="#c4524d" d="M2 6l3-4 3 4zM8 6l3-4 3 4z"/><path fill="#223553" d="M7 10h2v4H7z"/>`,
+    castle:`<path fill="#182e4a" d="M1 5h3V2h2v3h4V2h2v3h3v10H1z"/><path fill="#ded1b1" d="M2 6h12v8H2zM4 3h2v5H4zM10 3h2v5h-2z"/><path fill="#b95e47" d="M2 5h4L4 2zM9 5h5l-3-3z"/><path fill="#243650" d="M7 10h3v4H7zM3 8h2v2H3zM11 8h2v2h-2z"/>`,
+    forest:`<path fill="#142d3d" d="M7 1h2v2h2v3h2v3h2v2H1V9h2V6h2V3h2z"/><path fill="#387146" d="M7 2h2v2h2v3h2v2H3V7h2V4h2z"/><path fill="#72aa5b" d="M7 3h2v2H7zM6 5h2v2H6z"/><path fill="#6a5138" d="M7 11h3v4H7z"/>`,
+    airport:`<path fill="#17263d" d="M7 1h2v5l6 4v2l-6-2v3l2 2v1H5v-1l2-2v-3l-6 2v-2l6-4z"/><path fill="#e5d9a5" d="M7 2h2v6l5 3-5-1v3l1 1H6l1-1v-3l-5 1 5-3z"/>`
+  };
+  const el = id=>document.getElementById(id);
+  const status = (msg,bad=false)=>{el('statusText').textContent=msg;el('statusLight').style.background=bad?'#dd8c62':'#8dcf75';};
+  const info = (name,description)=>{el('placeName').textContent=name;el('placeDesc').textContent=description;};
+  const makeIcon=kind=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">${icons[kind]||icons.town}</svg>`;
+  let map,pixelScale=4,userLngLat=null,renderQueued=false;
+  const placeElements=[];
+  for(const p of PLACES){
+    const node=document.createElement('button');node.type='button';node.className='place';node.title=p.name;node.setAttribute('aria-label','Besök '+p.name);
+    node.innerHTML=makeIcon(p.kind)+'<span></span>';
+    node.querySelector('span').textContent=p.name;
+    node.style.display='none';
+    node.addEventListener('click',()=>travel(p));
+    el('places').appendChild(node);
+    placeElements.push({p,node});
+    const opt=document.createElement('option');opt.value=p.name;el('destinations').appendChild(opt);
+  }
+  const quick=['Gamla stan','Bromma','Södermalm','Nacka','Täby','Huddinge'];
+  for(const name of quick){
+    const b=document.createElement('button');b.textContent=name;b.type='button';b.onclick=()=>travel(PLACES.find(p=>p.name===name));el('shortcuts').appendChild(b);
+  }
+  function travel(p){
+    if(!map) return;
+    const z=Math.max(12.7,p.zoom+0.3);
+    map.flyTo({center:[p.lng,p.lat],zoom:z,essential:true,speed:0.8,curve:1.3});
+    info(p.name,p.detail);el('search').value=p.name;
+  }
+  function updatePlaces(){
+    if(!map)return;
+    const width=el('map').clientWidth,height=el('map').clientHeight,z=map.getZoom(),occupied=[];
+    const priority=[...placeElements].sort((a,b)=> a.p.kind==='capital'?-1:b.p.kind==='capital'?1:a.p.zoom-b.p.zoom);
+    for(const {p,node} of priority){
+      const pos=map.project([p.lng,p.lat]);
+      const vis=z>=p.zoom && pos.x>0 && pos.x<width && pos.y>80 && pos.y<height-75;
+      if(!vis){node.style.display='none';continue;}
+      const half=Math.max(48,p.name.length*5.7);const rect={l:pos.x-half,r:pos.x+half,t:pos.y-59,b:pos.y};
+      const collision=occupied.some(o=>rect.l<o.r&&rect.r>o.l&&rect.t<o.b&&rect.b>o.t);
+      if(collision){node.style.display='none';continue;}
+      occupied.push(rect);node.style.display='flex';node.style.left=pos.x+'px';node.style.top=pos.y+'px';
+    }
+    if(userLngLat){const pos=map.project(userLngLat);el('player').style.left=pos.x+'px';el('player').style.top=pos.y+'px';}
+  }
+  function pixelate(){
+    renderQueued=false;
+    if(!map)return;
+    const canvas=el('pixel');
+    if(pixelScale===1){canvas.style.display='none';return;}
+    canvas.style.display='block';
+    const w=Math.max(1,Math.round(el('map').clientWidth/pixelScale)),h=Math.max(1,Math.round(el('map').clientHeight/pixelScale));
+    if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
+    const ctx=canvas.getContext('2d',{alpha:false});ctx.imageSmoothingEnabled=false;
+    try{ctx.drawImage(map.getCanvas(),0,0,w,h);}catch(e){console.warn('Pixel canvas:',e);canvas.style.display='none';}
+  }
+  function schedulePixel(){if(!renderQueued){renderQueued=true;requestAnimationFrame(pixelate);}}
+  function refresh(){updatePlaces();schedulePixel();}
+  function createStyle(origin){
+    const srcId=Object.keys(origin.sources).find(id=>origin.sources[id] && origin.sources[id].type==='vector');
+    if(!srcId)throw Error('Kartan saknar vektorkälla');
+    const src=srcId;
+    const layer=(id,type,layerName,paint,layout,filter,minzoom)=>({id,type,source:src,'source-layer':layerName,...(filter?{filter}:{}),...(minzoom?{minzoom}:{}),paint,...(layout?{layout}:{})});
+    const line=(id,lay,color,w,minzoom,filter)=>layer(id,'line',lay,{'line-color':color,'line-width':w,'line-opacity':0.94},{'line-cap':'square','line-join':'miter'},filter,minzoom);
+    const f=(id,lay,col,opacity=1,filter)=>layer(id,'fill',lay,{'fill-color':col,'fill-opacity':opacity},null,filter);
+    const classIs=names=>['in',['get','class'],['literal',names]];
+    const layers=[
+      {id:'rpg-ground',type:'background',paint:{'background-color':'#9bbe70'}},
+      f('rpg-landcover','landcover',['match',['get','class'],'wood','#3e7044','grass','#87b96a','farmland','#c1ba72','ice','#c1d8ce','sand','#d4c085','#a7bf7c'],0.94),
+      f('rpg-landuse','landuse',['match',['get','class'],'forest','#3b734d','park','#5e9a54','grass','#84b866','cemetery','#648b69','residential','#acb98a','industrial','#b9b39b','commercial','#c1a88c','farmland','#b5b673','#a4bf80'],0.9),
+      f('rpg-water','water','#346d9d'),
+      line('rpg-waterway-outline','waterway','#254f7e',['interpolate',['linear'],['zoom'],9,0.7,14,4]),
+      line('rpg-waterway','waterway','#5a94b6',['interpolate',['linear'],['zoom'],9,0.35,14,2]),
+      f('rpg-buildings-shadow','building','#52624b',0.95),
+      line('rpg-buildings-outline','building','#506047',['interpolate',['linear'],['zoom'],11,0.4,15,1.3],13),
+      f('rpg-buildings','building','#e9ca97',0.96),
+      line('rpg-path-outline','transportation','#59694e',['interpolate',['linear'],['zoom'],10,0.4,15,4.5],11,classIs(['path','track','footway','pedestrian'])),
+      line('rpg-path','transportation','#e6d29a',['interpolate',['linear'],['zoom'],10,0.2,15,2.4],11,classIs(['path','track','footway','pedestrian'])),
+      line('rpg-road-outline','transportation','#575c58',['interpolate',['linear'],['zoom'],9,1.0,12,3.3,16,8]),
+      line('rpg-road','transportation','#e6d2a1',['interpolate',['linear'],['zoom'],9,0.5,12,2,16,5]),
+      line('rpg-primary-outline','transportation','#6b654b',['interpolate',['linear'],['zoom'],9,1.8,12,5.7,16,12],10,classIs(['primary','trunk','motorway'])),
+      line('rpg-primary-road','transportation','#ddad77',['interpolate',['linear'],['zoom'],9,1,12,3.4,16,8],10,classIs(['primary','trunk','motorway'])),
+      layer('rpg-street-labels','symbol','transportation_name',{'text-color':'#253752','text-halo-color':'#e9d9ad','text-halo-width':1.5},{'symbol-placement':'line','text-field':['coalesce',['get','name:sv'],['get','name'],''],'text-font':['Noto Sans Regular'],'text-size':['interpolate',['linear'],['zoom'],13,9,16,12],'text-rotation-alignment':'map','text-max-angle':30},null,13.6)
+    ];
+    return {version:8,name:'Stockholm World of Pixels',sources:origin.sources,glyphs:origin.glyphs,sprite:origin.sprite,layers,center:STOCKHOLM,zoom:ZOOM_START};
+  }
+  async function init(){
+    if(typeof maplibregl==='undefined'){error('Kartbiblioteket kunde inte laddas. Kontrollera internetanslutningen.');return;}
+    let style='https://tiles.openfreemap.org/styles/liberty';
+    try{
+      const r=await fetch(style);if(!r.ok)throw Error('HTTP '+r.status);
+      style=createStyle(await r.json());
+    }catch(err){console.warn('Custom pixel theme failed, using fallback map style',err);status('Basstil används som reserv',true);}
+    try{
+      map=new maplibregl.Map({container:'map',style,center:STOCKHOLM,zoom:ZOOM_START,minZoom:8.5,maxZoom:18,pitch:0,bearing:0,maxPitch:0,dragRotate:false,touchPitch:false,preserveDrawingBuffer:true,attributionControl:true,renderWorldCopies:false});
+      map.on('load',()=>{status('Världskartan är redo · riktig geografi');refresh();});
+      map.on('render',schedulePixel);
+      map.on('move',updatePlaces);
+      map.on('zoomend',refresh);
+      map.on('resize',refresh);
+      map.on('error',e=>{console.warn('Map tile/style error:',e.error);});
+      map.on('click',e=>{
+        const lng=e.lngLat.lng,lat=e.lngLat.lat;
+        info('Okänd plats','Position: '+lat.toFixed(5)+'° N, '+lng.toFixed(5)+'° E. En ny plats att utforska!');
+      });
+      document.addEventListener('visibilitychange',()=>{if(!document.hidden)map.resize();});
+    }catch(err){error('Fel när kartan startades: '+err.message);}
+  }
+  function error(msg){el('warning').style.display='block';el('warningText').textContent=msg;status('Kartan kunde inte laddas',true);}
+  el('searchForm').addEventListener('submit',e=>{
+    e.preventDefault();const q=el('search').value.trim().toLocaleLowerCase('sv');
+    const p=PLACES.find(p=>p.name.toLocaleLowerCase('sv')===q)||PLACES.find(p=>p.name.toLocaleLowerCase('sv').includes(q));
+    if(p&&q)travel(p);else info('Plats saknas','Första prototypen söker i våra '+PLACES.length+' fördefinierade Stockholmsplatser. Testa till exempel Bromma eller Nacka.');
+    el('search').blur();
+  });
+  el('zoomIn').onclick=()=>map&&map.zoomIn();
+  el('zoomOut').onclick=()=>map&&map.zoomOut();
+  el('reset').onclick=()=>{if(map){map.flyTo({center:STOCKHOLM,zoom:ZOOM_START});info('Stockholm','Tillbaka vid världskartans startpunkt.');el('search').value='';}};
+  el('togglePixel').onclick=()=>{pixelScale=pixelScale===4?6:pixelScale===6?2:pixelScale===2?1:4;el('togglePixel').textContent=pixelScale===1?'PIXEL AV':'PIXEL '+pixelScale+'×';schedulePixel();};
+  el('locate').onclick=()=>{
+    if(!navigator.geolocation){info('Position','Din webbläsare stöder inte platstjänster.');return;}
+    status('Letar efter din position...');
+    navigator.geolocation.getCurrentPosition(({coords})=>{
+      userLngLat=[coords.longitude,coords.latitude];el('player').style.display='block';
+      map.flyTo({center:userLngLat,zoom:14.4});refresh();
+      info('Du är här!',`GPS-position: ${coords.latitude.toFixed(5)}° N, ${coords.longitude.toFixed(5)}° E.`);
+      status('Position hittad · world map aktiv');
+    },err=>{status('Platsåtkomst misslyckades',true);info('Ingen position','Tillåt platsåtkomst i webbläsaren och öppna sidan via HTTPS eller localhost.');},{enableHighAccuracy:true,timeout:12000,maximumAge:45000});
+  };
+  init();
+  </script>
+</body>
+</html>
