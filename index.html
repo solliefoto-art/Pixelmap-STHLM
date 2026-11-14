@@ -18,100 +18,112 @@
     button,input,select { font:inherit; }
     button { cursor:pointer; touch-action:manipulation; }
     .pixel-font { font-family:'Press Start 2P','Courier New',monospace; font-weight:normal; }
+
     #mapwrap { position:absolute; inset:0; overflow:hidden; background:#a8c379; }
     #map { position:absolute; inset:0; background:#a8c379; }
-    .maplibregl-control-container .maplibregl-ctrl-bottom-right { bottom:104px; right:6px; }
-    .maplibregl-ctrl-attrib { background:rgba(255,244,210,.88)!important; font-size:10px!important; }
+    .maplibregl-control-container .maplibregl-ctrl-bottom-right { bottom:92px; right:6px; }
+    .maplibregl-ctrl-attrib { background:rgba(255,244,210,.86)!important; font-size:10px!important; }
     .maplibregl-ctrl-attrib a { color:#224260!important; }
-    #pixel { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; image-rendering:pixelated; z-index:2; }
-    #pixelTint { position:absolute; inset:0; pointer-events:none; z-index:2; opacity:.1; background-image:repeating-linear-gradient(0deg,rgba(12,15,38,.14) 0,rgba(12,15,38,.14) 1px,transparent 1px,transparent 6px); }
-    #places { position:absolute; inset:0; pointer-events:none; z-index:3; overflow:hidden; }
-    .place { position:absolute; translate:-50% -100%; pointer-events:auto; display:flex; align-items:center; flex-direction:column; gap:0; cursor:pointer; white-space:nowrap; filter:drop-shadow(2px 2px 0 #15213a); user-select:none; }
-    .place:focus-visible { outline:3px solid #fff; }
-    .place svg { width:36px; height:36px; shape-rendering:crispEdges; image-rendering:pixelated; filter:drop-shadow(1px 2px 0 #071a29); }
-    .place span { background:#fff0c2; border:2px solid #54462e; outline:1px solid #fff8db; padding:4px 6px; font:9px/1.4 'Press Start 2P',monospace; color:#202742; max-width:160px; overflow:hidden; text-overflow:ellipsis; }
-    .place.landmark svg { width:40px; height:40px; }
-    #player { position:absolute; display:none; z-index:4; transform:translate(-50%,-80%); pointer-events:none; }
-    #player .player-pin { width:16px;height:16px; background:#f7df7f; border:4px solid #122b66; outline:2px solid #f9e6a0; box-shadow:3px 3px 0 #0a1531; transform:rotate(45deg); }
-    header { position:absolute; top:0; left:0; right:0; z-index:5; display:flex; align-items:center; justify-content:space-between; min-height:70px; gap:10px; padding:11px 16px 12px; background:linear-gradient(#132144,#1a2c4c); border-bottom:4px solid #d4ad66; box-shadow:0 4px 0 #57452d; }
-    .title { min-width:0; display:flex; flex-direction:column; gap:6px; }
-    .title strong { font-size:clamp(12px,1.7vw,20px); letter-spacing:.02em; line-height:1.6; }
-    .title small { color:#edca7d; font-size:9px; letter-spacing:.15em; }
-    .corner { font:13px/1 'Press Start 2P',monospace; color:var(--gold); }
-    .rpgbox { background:linear-gradient(145deg,var(--panelTop),var(--panelBottom) 82%); border:3px solid var(--panelStroke); outline:2px solid #61502d; box-shadow:4px 4px 0 rgba(8,13,28,.65),inset 0 0 0 2px var(--panelInner); border-radius:3px; }
-    .panel { position:absolute; z-index:5; top:91px; left:16px; width:min(320px,calc(100vw - 95px)); padding:12px; }
-    .panel label { color:#f1d78f; display:block; font-size:9px; letter-spacing:.08em; margin:0 0 7px; }
-    .searchrow { display:flex; gap:6px; }
-    .searchrow input { padding:10px; width:100%; min-width:0; background:#101a38; border:2px solid #9caed0; outline:none; color:white; font-size:14px; border-radius:0; }
-    .searchrow input:focus { border-color:#f1db9a; }
-    .searchrow button,.smallbutton { color:#fff0c5; border:2px solid #d5b77b; padding:8px 10px; background:#2b437b; box-shadow:2px 2px 0 #08142a; }
-    .searchrow button:hover,.smallbutton:hover { background:#3b5693; }
-    .smallheading { color:#eccb83; font:9px/1.8 'Press Start 2P',monospace; margin:12px 0 7px; }
-    .shortcuts { display:flex; flex-wrap:wrap; gap:6px; }
-    .shortcuts button { border:1px solid #839bc0; background:#1d2f54; color:#ecf2ff; border-radius:0; font-size:12px; padding:7px 9px; }
-    .shortcuts button:hover { border-color:#ffe7a1; }
-    .legend { margin-top:10px; padding-top:10px; border-top:1px dashed rgba(255,240,197,.35); display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 10px; font-size:11px; color:#ebf1ff; }
-    .legend .key { display:flex; align-items:center; gap:7px; min-width:0; }
-    .legend i { display:inline-block; width:14px; height:14px; border:2px solid #0d1732; box-shadow:2px 2px 0 #08142a; }
-    .legend .castle { background:#e8c38b; }
-    .legend .cathedral { background:#d6e0ef; }
-    .legend .dome { background:#d8d2ff; }
-    .legend .airship { background:#ffe08d; }
-    .righttools { position:absolute; z-index:5; top:90px; right:16px; display:flex; flex-direction:column; gap:9px; }
-    .tool { width:50px;height:50px; color:#fff0c5; background:#213867; border:3px solid #ebcb86; outline:2px solid #634a2a; border-radius:2px; font-weight:800; font-size:22px; box-shadow:3px 3px 0 #0d1830; }
-    .tool small { display:block; font-size:9px; line-height:1; margin-top:2px; }
-    .tool:active { transform:translate(2px,2px); }
-    .tool.mode7-on { background:#6b3d9b; }
-    .info { position:absolute; z-index:5; left:16px; bottom:102px; padding:12px; width:min(390px,calc(100% - 32px)); pointer-events:none; }
-    .info small { color:#f2cf86; font:9px/1.6 'Press Start 2P',monospace; }
-    .info h2 { font-size:17px; line-height:1.3; margin:5px 0 5px; }
-    .info p { color:#ecf3ff; font-size:12px; line-height:1.45; margin:0; }
-    .tagline { margin-top:8px; color:#ffd483; font:9px/1.6 'Press Start 2P',monospace; }
-    footer { position:absolute; z-index:5; bottom:0; left:0; right:0; min-height:85px; padding:10px 16px calc(10px + env(safe-area-inset-bottom)); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:9px; color:#f2e1ab; background:linear-gradient(160deg,#1d3057,#101931); border-top:4px solid #d8b775; box-shadow:0 -4px 0 #5e4b32; }
-    .status { display:flex; align-items:center; gap:9px; font-size:11px; }
-    .status .light { width:10px;height:10px;background:#8dcf75; box-shadow:0 0 0 2px #385b41; }
-    .footerbuttons { display:flex; gap:9px; align-items:center; flex-wrap:wrap; }
-    .footerbuttons button { font-size:12px; }
-    #credits { position:absolute; z-index:6; right:8px; bottom:93px; background:rgba(248,234,192,.91); color:#23314a; padding:2px 5px; font:10px/1.5 system-ui,sans-serif; }
-    #credits a { color:#204e6f; }
-    #warning { display:none; position:absolute; z-index:9; left:50%; top:48%; transform:translate(-50%,-50%); width:min(400px,90vw); padding:20px; font-size:14px; line-height:1.6; }
-    #warning strong { color:#f3d58e; }
-    #warning button { margin-top:12px; }
-    #mode7Aura { position:absolute; inset:0; pointer-events:none; z-index:4; opacity:0; transition:opacity .35s ease; background:
-      linear-gradient(to bottom, rgba(225,236,255,.26), rgba(225,236,255,0) 18%),
-      linear-gradient(to top, rgba(10,16,29,.34), rgba(10,16,29,0) 28%),
-      repeating-linear-gradient(0deg, rgba(14,20,35,.07) 0, rgba(14,20,35,.07) 1px, transparent 1px, transparent 5px);
+
+    #pixel, #pixelFX { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; image-rendering:pixelated; }
+    #pixel { z-index:2; }
+    #pixelFX { z-index:4; }
+    #pixelTint { position:absolute; inset:0; pointer-events:none; z-index:3; opacity:.11; background-image:repeating-linear-gradient(0deg,rgba(12,15,38,.14) 0,rgba(12,15,38,.14) 1px,transparent 1px,transparent 6px); }
+    #mode7Aura { position:absolute; inset:0; pointer-events:none; z-index:6; opacity:0; transition:opacity .35s ease; background:
+      linear-gradient(to bottom, rgba(235,242,255,.24), rgba(235,242,255,0) 18%),
+      radial-gradient(ellipse at center 110%, rgba(0,0,0,.45) 0%, rgba(0,0,0,.15) 34%, rgba(0,0,0,0) 60%),
+      linear-gradient(to top, rgba(10,16,29,.42), rgba(10,16,29,0) 28%);
     }
     body.mode7 #mode7Aura { opacity:1; }
     body.mode7 #pixelTint { opacity:.16; }
-    body.mode7 .place { filter:drop-shadow(2px 3px 0 #0b162d); }
+
+    #decor, #landmarks { position:absolute; inset:0; z-index:5; pointer-events:none; overflow:hidden; }
+    #landmarks { z-index:7; }
+    .sprite {
+      position:absolute; left:0; top:0; transform-origin:50% 100%; pointer-events:none; image-rendering:pixelated;
+      filter:drop-shadow(2px 2px 0 rgba(4,10,23,.8));
+    }
+    .sprite svg { display:block; width:100%; height:100%; shape-rendering:crispEdges; image-rendering:pixelated; }
+    .sprite.landmark { pointer-events:auto; cursor:pointer; }
+    .sprite.landmark:focus-visible { outline:3px solid white; }
+    .sprite .banner {
+      position:absolute; left:50%; bottom:100%; transform:translate(-50%,-2px); white-space:nowrap;
+      background:#fff0c2; border:2px solid #54462e; outline:1px solid #fff8db; padding:3px 5px;
+      font:8px/1.3 'Press Start 2P',monospace; color:#202742; display:none; max-width:130px; overflow:hidden; text-overflow:ellipsis;
+    }
+    .sprite.landmark:hover .banner, .sprite.landmark:focus .banner { display:block; }
+    .sprite.townCluster .banner, .sprite.capital .banner { display:block; }
+
+    header {
+      position:absolute; top:0; left:0; right:0; z-index:10; min-height:56px; padding:9px 12px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      background:linear-gradient(#132144,#17284a); border-bottom:4px solid #d4ad66; box-shadow:0 4px 0 #57452d;
+    }
+    .title { min-width:0; display:flex; flex-direction:column; gap:4px; }
+    .title strong { font-size:clamp(11px,1.5vw,18px); line-height:1.45; }
+    .title small { color:#edca7d; font-size:8px; letter-spacing:.12em; }
+    .corner { font:12px/1 'Press Start 2P',monospace; color:var(--gold); }
+
+    .hud {
+      position:absolute; z-index:10; background:linear-gradient(145deg,var(--panelTop),var(--panelBottom) 82%);
+      border:3px solid var(--panelStroke); outline:2px solid #61502d; box-shadow:4px 4px 0 rgba(8,13,28,.65),inset 0 0 0 2px var(--panelInner); border-radius:3px;
+    }
+    #commandBox { top:70px; left:12px; width:min(290px,calc(100vw - 78px)); padding:9px; }
+    #questBox { left:12px; bottom:78px; width:min(360px,calc(100vw - 24px)); padding:10px; }
+    #toolBox { top:72px; right:12px; padding:8px; display:flex; flex-direction:column; gap:8px; }
+
+    .hudTitle { color:#f2cf86; font:8px/1.5 'Press Start 2P',monospace; margin:0 0 6px; }
+    .searchrow { display:flex; gap:6px; }
+    .searchrow input {
+      padding:8px 9px; width:100%; min-width:0; background:#101a38; border:2px solid #9caed0; outline:none; color:white; font-size:13px; border-radius:0;
+    }
+    .searchrow button,.smallbutton,.tool {
+      color:#fff0c5; border:2px solid #d5b77b; background:#2b437b; box-shadow:2px 2px 0 #08142a;
+    }
+    .smallbutton { padding:7px 8px; font-size:11px; }
+    .quickrow { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+    .quickrow button { border:1px solid #839bc0; background:#1d2f54; color:#ecf2ff; border-radius:0; font-size:10px; padding:5px 7px; box-shadow:2px 2px 0 #08142a; }
+    .quickrow button:hover,.smallbutton:hover,.tool:hover,.searchrow button:hover { background:#3b5693; }
+
+    .tool { width:42px; height:42px; font-size:18px; font-weight:800; }
+    .tool .tiny { display:block; font-size:7px; line-height:1; margin-top:2px; }
+    .tool.mode7-on { background:#6a3a95; }
+
+    #questBox h2 { font-size:14px; margin:4px 0 4px; line-height:1.35; }
+    #questBox p { margin:0; font-size:11px; line-height:1.42; color:#eef4ff; }
+    #questTag { margin-top:7px; color:#ffd483; font:8px/1.5 'Press Start 2P',monospace; }
+
+    footer {
+      position:absolute; z-index:10; left:0; right:0; bottom:0; min-height:66px; padding:8px 12px calc(8px + env(safe-area-inset-bottom));
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      background:linear-gradient(160deg,#1d3057,#101931); border-top:4px solid #d8b775; box-shadow:0 -4px 0 #5e4b32;
+    }
+    .status { display:flex; align-items:center; gap:9px; font-size:11px; }
+    .status .light { width:10px; height:10px; background:#8dcf75; box-shadow:0 0 0 2px #385b41; }
+    .footerbuttons { display:flex; gap:8px; flex-wrap:wrap; }
+    #credits { position:absolute; z-index:11; right:8px; bottom:74px; background:rgba(248,234,192,.9); color:#23314a; padding:2px 5px; font:9px/1.5 system-ui,sans-serif; }
+    #credits a { color:#204e6f; }
+    #warning { display:none; position:absolute; z-index:20; left:50%; top:48%; transform:translate(-50%,-50%); width:min(400px,90vw); padding:20px; font-size:14px; line-height:1.6; }
+    #warning strong { color:#f3d58e; }
+    #warning button { margin-top:12px; }
+
     @media(max-width:630px) {
-      header { min-height:62px; padding:8px 10px; }
+      header { min-height:52px; padding:8px 9px; }
       .title strong { font-size:10px; }
-      .title small { font-size:8px; letter-spacing:.05em; }
+      .title small,.hudTitle,#questTag { font-size:7px; }
       .corner { font-size:9px; }
-      .panel { top:77px; left:9px; width:min(285px,calc(100vw - 74px)); padding:9px; }
-      .panel label,.smallheading,.tagline,.info small { font-size:8px; }
-      .legend { grid-template-columns:1fr; font-size:10px; }
-      .righttools { right:10px;top:78px;gap:8px; }
-      .tool { width:44px;height:44px;font-size:18px; }
-      .tool small { font-size:7px; }
-      .info { left:9px;bottom:92px;padding:9px;width:min(345px,calc(100vw - 18px)); }
-      .info h2 { font-size:15px; }
-      .info p { font-size:11px; }
-      footer { min-height:80px; padding:9px 10px calc(9px + env(safe-area-inset-bottom)); }
-      .footerbuttons button { padding:7px; font-size:11px; }
-      .status { font-size:10px; }
-      .maplibregl-control-container .maplibregl-ctrl-bottom-right { bottom:86px; }
-      #credits { font-size:9px; }
+      #commandBox { top:63px; left:8px; width:min(255px,calc(100vw - 70px)); padding:8px; }
+      #toolBox { top:64px; right:8px; }
+      #questBox { left:8px; bottom:72px; width:min(320px,calc(100vw - 16px)); padding:8px; }
+      #questBox h2 { font-size:13px; }
+      #questBox p { font-size:10.5px; }
+      .tool { width:38px; height:38px; font-size:16px; }
+      .smallbutton { font-size:10px; padding:6px 7px; }
+      .maplibregl-control-container .maplibregl-ctrl-bottom-right { bottom:80px; }
     }
-    @media(max-height:720px) {
-      .legend { display:none; }
-    }
-    @media(max-height:600px) {
-      .shortcuts { display:none; }
-      .panel { max-width:265px; }
-      .info { bottom:89px; }
+    @media(max-height:650px) {
+      .quickrow { display:none; }
+      #questBox { width:min(300px,calc(100vw - 16px)); }
     }
   </style>
 </head>
@@ -120,174 +132,235 @@
     <div id="map" aria-label="Interaktiv karta över Stockholm"></div>
     <canvas id="pixel" aria-hidden="true"></canvas>
     <div id="pixelTint" aria-hidden="true"></div>
-    <div id="places"></div>
+    <div id="decor" aria-hidden="true"></div>
+    <div id="landmarks"></div>
+    <canvas id="pixelFX" aria-hidden="true"></canvas>
     <div id="mode7Aura" aria-hidden="true"></div>
-    <div id="player"><div class="player-pin"></div></div>
+    <div id="player" class="sprite" style="display:none;width:18px;height:18px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#102750" d="M5 6h6v8H5z"/><path fill="#f6dc8f" d="M6 2h4v4H6z"/><path fill="#c6574d" d="M5 7h6v2H5z"/><path fill="#385aa8" d="M6 10h1v4H6zM9 10h1v4H9zM5 8h1v3H5zM10 8h1v3h-1z"/></svg></div>
   </div>
+
   <header>
     <div class="corner">✦</div>
-    <div class="title"><strong class="pixel-font">STOCKHOLM</strong><small>WORLD OF PIXELS · PROTOTYPE v0.2</small></div>
+    <div class="title"><strong class="pixel-font">STOCKHOLM WORLD OF PIXELS</strong><small>v0.3 · SPRITE OVERWORLD PROTOTYPE</small></div>
     <div class="corner">✦</div>
   </header>
-  <section class="panel rpgbox" aria-label="Platssökning">
-    <label class="pixel-font" for="search">SELECT DESTINATION</label>
+
+  <section id="commandBox" class="hud" aria-label="Commands">
+    <div class="hudTitle">COMMAND</div>
     <form class="searchrow" id="searchForm">
-      <input id="search" type="search" autocomplete="off" list="destinations" placeholder="Stadsdel eller landmärke..." aria-label="Sök bland platser">
+      <input id="search" type="search" autocomplete="off" list="destinations" placeholder="Find town / landmark..." aria-label="Sök bland platser">
       <datalist id="destinations"></datalist>
       <button type="submit" aria-label="Sök">➜</button>
     </form>
-    <div class="smallheading">FAST TRAVEL</div>
-    <div class="shortcuts" id="shortcuts"></div>
-    <div class="legend">
-      <div class="key"><i class="castle"></i><span>Slott / citadell</span></div>
-      <div class="key"><i class="cathedral"></i><span>Katedral / kyrka</span></div>
-      <div class="key"><i class="dome"></i><span>Specialplats / Globen</span></div>
-      <div class="key"><i class="airship"></i><span>Airship-port</span></div>
-    </div>
+    <div class="quickrow" id="quickrow"></div>
   </section>
-  <div class="righttools" aria-label="Kartkontroller">
-    <button class="tool" id="zoomIn" title="Zooma in" aria-label="Zooma in">+</button>
-    <button class="tool" id="zoomOut" title="Zooma ut" aria-label="Zooma ut">−</button>
-    <button class="tool" id="locate" title="Min position" aria-label="Visa min position">⌖</button>
-    <button class="tool pixel-font" id="mode7" title="Mode 7-läge" aria-label="Slå av eller på Mode 7-läge">7<small>M7</small></button>
-  </div>
-  <section class="info rpgbox" id="info" aria-live="polite">
-    <small>WORLD MAP / QUEST LOG</small>
-    <h2 id="placeName">Välkommen till Stockholm!</h2>
-    <p id="placeDesc">Utforska stadens riktiga geografi som en 16-bitars RPG-värld. Nu med världsobjekt, specialplatser och ett pseudo-Mode-7-läge.</p>
-    <div class="tagline" id="placeTag">REGION STATUS: READY FOR ADVENTURE</div>
+
+  <section id="toolBox" class="hud" aria-label="Tools">
+    <button class="tool" id="zoomIn" title="Zoom in" aria-label="Zoom in">+</button>
+    <button class="tool" id="zoomOut" title="Zoom out" aria-label="Zoom out">−</button>
+    <button class="tool" id="locate" title="Locate" aria-label="Show my position">⌖</button>
+    <button class="tool pixel-font" id="mode7" title="Toggle Mode 7" aria-label="Toggle Mode 7">7<span class="tiny">M7</span></button>
   </section>
+
+  <section id="questBox" class="hud" aria-live="polite">
+    <div class="hudTitle">WORLD LOG</div>
+    <h2 id="placeName">Stockholm Region</h2>
+    <p id="placeDesc">Real geography under the hood, but now dressed with environment sprites and stronger pseudo‑Mode‑7 presentation.</p>
+    <div id="questTag">STATUS: READY FOR ADVENTURE</div>
+  </section>
+
   <div id="credits">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a> · <a href="https://openfreemap.org/" target="_blank" rel="noopener noreferrer">OpenFreeMap</a></div>
+
   <footer>
-    <div class="status"><span class="light" id="statusLight"></span><span id="statusText">Laddar världskartan...</span></div>
+    <div class="status"><span class="light" id="statusLight"></span><span id="statusText">Loading world map...</span></div>
     <div class="footerbuttons">
       <button class="smallbutton" id="togglePixel" type="button">PIXEL 4×</button>
-      <button class="smallbutton" id="toggleLabels" type="button">LANDMARKS PÅ</button>
-      <button class="smallbutton" id="reset" type="button">STOCKHOLM ⌂</button>
+      <button class="smallbutton" id="toggleDecor" type="button">SPRITES ON</button>
+      <button class="smallbutton" id="toggleBanners" type="button">NAMES ON</button>
+      <button class="smallbutton" id="reset" type="button">RESET ⌂</button>
     </div>
   </footer>
-  <section class="rpgbox" id="warning" role="alert"><strong>Kartan kunde inte laddas.</strong><div id="warningText">Se till att du är uppkopplad och prova igen.</div><button class="smallbutton" onclick="location.reload()">Försök igen</button></section>
+
+  <section class="hud" id="warning" role="alert"><strong>Map could not load.</strong><div id="warningText">Check your connection and try again.</div><button class="smallbutton" onclick="location.reload()">Retry</button></section>
 
   <script type="module">
   import * as maplibregl from "https://unpkg.com/maplibre-gl@6.18.0/dist/maplibre-gl.mjs";
   'use strict';
 
   const STOCKHOLM=[18.0686,59.3293];
-  const ZOOM_START=10.7;
-  const MODE7_VIEW={pitch:58,bearing:-12};
+  const ZOOM_START=10.65;
+  const MODE7_VIEW={pitch:62,bearing:-18};
 
-  const PLACES=[
-    {name:'Stockholm',lng:18.0686,lat:59.3293,kind:'capital',zoom:10.2,tag:'WORLD CAPITAL',detail:'Huvudstaden – centrum för hela världskartan och navet mellan Mälaren och skärgården.'},
-    {name:'Gamla stan',lng:18.0705,lat:59.3251,kind:'castle',zoom:12.0,tag:'ROYAL CITADEL',detail:'Den gamla stadskärnan tolkad som ett kungligt pixelcitadell med portar, murar och kullerstensgränder.'},
-    {name:'Stockholms slott',lng:18.0718,lat:59.3268,kind:'castle',zoom:13.0,landmark:true,tag:'PALACE DUNGEON',detail:'Kungliga slottet blir här ett stort pixelslott – som ett centralt JRPG-palats i stadens hjärta.'},
-    {name:'Storkyrkan',lng:18.0707,lat:59.3253,kind:'cathedral',zoom:13.4,landmark:true,tag:'HOLY SANCTUM',detail:'Storkyrkan som en hög pixelkatedral – en helgedom mitt i stadens gamla kärna.'},
-    {name:'Riddarholmen',lng:18.0638,lat:59.3247,kind:'cathedral',zoom:13.3,landmark:true,tag:'ANCIENT ABBEY',detail:'Riddarholmen blir en ö med gotisk klosterkänsla och tunga historiska vibbar.'},
-    {name:'Södermalm',lng:18.0648,lat:59.3123,kind:'town',zoom:12.0,tag:'HILL DISTRICT',detail:'Söders höjder och kvarter – som ett stort levande stadsdistrikt i en JRPG-värld.'},
-    {name:'Kungsholmen',lng:18.0350,lat:59.3313,kind:'town',zoom:12.2,tag:'WEST ISLE',detail:'Västra innerstadsön med kajer, broar och viktiga stadskvarter.'},
-    {name:'Stadshuset',lng:18.0230,lat:59.3275,kind:'tower',zoom:13.0,landmark:true,tag:'MAGE TOWER',detail:'Stockholms stadshus tolkas som ett högt pixeltorn – nästan som ett magitorn vid vattnet.'},
-    {name:'Östermalm',lng:18.0916,lat:59.3383,kind:'town',zoom:12.3,tag:'NOBLE QUARTER',detail:'Östermalm blir ett elegant stadsdistrikt med parker och stenstadskvarter.'},
-    {name:'Djurgården',lng:18.1185,lat:59.3242,kind:'forest',zoom:12.1,tag:'ROYAL GROVE',detail:'Djurgården blir en kunglig parkö – ett grönt område med museer, stigar och hemligheter.'},
-    {name:'Globen',lng:18.0835,lat:59.2934,kind:'dome',zoom:12.8,landmark:true,tag:'MOON DOME',detail:'Avicii Arena / Globen blir en mystisk vit mana-sfär – en unik världsstruktur, halvt arena och halvt uråldrigt observatorium.'},
-    {name:'Tele2 Arena',lng:18.0836,lat:59.2919,kind:'arena',zoom:13.2,landmark:true,tag:'BATTLE COLISEUM',detail:'Tele2 Arena blir ett battle coliseum – en plats för turneringar, bossfajter och events.'},
-    {name:'Nacka',lng:18.1646,lat:59.3105,kind:'town',zoom:10.9,tag:'EASTERN CLIFFS',detail:'Nacka – klippor, skog och vatten öster om Södermalm.'},
-    {name:'Solna',lng:18.0014,lat:59.3613,kind:'town',zoom:11.3,tag:'NORTHERN REACH',detail:'Stad och parker precis norr om Stockholm.'},
-    {name:'Sundbyberg',lng:17.9702,lat:59.3613,kind:'town',zoom:11.7,tag:'TRADE WARD',detail:'En egen stad mitt i storstaden – kompakt och livlig.'},
-    {name:'Bromma',lng:17.9376,lat:59.3469,kind:'town',zoom:10.9,tag:'WESTERN GATE',detail:'Förorter och grönområden väster om innerstaden – en viktig västlig nod.'},
-    {name:'Bromma flygplats',lng:17.9419,lat:59.3544,kind:'airship',zoom:12.7,landmark:true,tag:'AIRSHIP PORT',detail:'Bromma flygplats översatt till en airship-port – din luftburna resehub på världskartan.'},
-    {name:'Drottningholms slott',lng:17.8869,lat:59.3214,kind:'castle',zoom:12.6,landmark:true,tag:'QUEEN\'S CASTLE',detail:'Drottningholm blir ett elegant sagoslott väster om staden, perfekt som egen slottsikon på kartan.'},
-    {name:'Danderyd',lng:18.0574,lat:59.4053,kind:'town',zoom:11.5,tag:'NORTH ROAD',detail:'Norr om innerstaden, intill Edsviken.'},
-    {name:'Sollentuna',lng:17.9485,lat:59.4284,kind:'town',zoom:11.0,tag:'LAKE DISTRICT',detail:'Sjöar och tätorter norr om Stockholm.'},
-    {name:'Järfälla',lng:17.8341,lat:59.4225,kind:'town',zoom:10.8,tag:'WESTERN PLAINS',detail:'Väster om Sollentuna och norr om Bromma.'},
-    {name:'Täby',lng:18.0687,lat:59.4439,kind:'town',zoom:11.0,tag:'NORTHEAST FIELDS',detail:'Bostadsområden och natur i nordost.'},
-    {name:'Lidingö',lng:18.1775,lat:59.3662,kind:'town',zoom:10.9,tag:'ISLAND REALM',detail:'En grön ö öster om city.'},
-    {name:'Kaknästornet',lng:18.1231,lat:59.3355,kind:'tower',zoom:12.7,landmark:true,tag:'SIGNAL TOWER',detail:'Kaknästornet blir ett högt signal- eller vakttorn i den östra delen av världskartan.'},
-    {name:'Huddinge',lng:17.9822,lat:59.2370,kind:'town',zoom:11.0,tag:'SOUTHERN WARD',detail:'Södra Stockholm med stora grönområden.'},
-    {name:'Botkyrka',lng:17.8244,lat:59.2390,kind:'town',zoom:11.3,tag:'SOUTHWEST HOLD',detail:'Söderväst om staden, mellan sjöar och skog.'},
-    {name:'Haninge',lng:18.1447,lat:59.1685,kind:'town',zoom:11.0,tag:'ARCHIPELAGO GATE',detail:'Porten mot skärgård och naturområden i söder.'},
-    {name:'Tyresta nationalpark',lng:18.2666,lat:59.1796,kind:'forest',zoom:11.4,landmark:true,tag:'ANCIENT FOREST',detail:'Tyresta blir en djup, uråldrig pixel-skog – perfekt som sent-game skogsområde.'},
-    {name:'Södertälje',lng:17.6253,lat:59.1955,kind:'port',zoom:10.2,tag:'CANAL CITY',detail:'Staden vid kanalen som förbinder Mälaren med havet – som en viktig portstad på världskartan.'},
-    {name:'Upplands Väsby',lng:17.9126,lat:59.5184,kind:'town',zoom:10.5,tag:'NORTHERN OUTPOST',detail:'Norrut mot Arlanda, med tätorter och natur.'}
+  const LANDMARKS=[
+    {name:'Stockholm',lng:18.0686,lat:59.3293,kind:'capital',zoom:10.0,tag:'WORLD CAPITAL',detail:'The central city rendered as a capital sprite cluster. This is the anchor point of the whole overworld.'},
+    {name:'Stockholms slott',lng:18.0718,lat:59.3268,kind:'castle',zoom:12.4,tag:'ROYAL CITADEL',detail:'The royal palace becomes a pixel citadel. This is exactly the kind of clear icon language SNES maps used.'},
+    {name:'Storkyrkan',lng:18.0707,lat:59.3253,kind:'cathedral',zoom:13.0,tag:'HOLY SANCTUM',detail:'A church upgraded into a fantasy cathedral sprite so it reads instantly at map scale.'},
+    {name:'Riddarholmen',lng:18.0638,lat:59.3247,kind:'cathedral',zoom:13.0,tag:'ANCIENT ABBEY',detail:'An abbey-like landmark with heavy silhouette so the icon feels like an RPG location.'},
+    {name:'Stadshuset',lng:18.0230,lat:59.3275,kind:'tower',zoom:12.8,tag:'MAGE TOWER',detail:'City Hall becomes a tall tower sprite, almost like a wizard tower overlooking the water.'},
+    {name:'Globen',lng:18.0835,lat:59.2934,kind:'dome',zoom:12.2,tag:'MOON DOME',detail:'Globen is turned into a unique dome sprite. Special landmarks should get unique silhouettes, just like memorable SNES map locations.'},
+    {name:'Tele2 Arena',lng:18.0836,lat:59.2919,kind:'arena',zoom:12.9,tag:'BATTLE COLISEUM',detail:'A combat-coliseum interpretation of Tele2 Arena.'},
+    {name:'Bromma flygplats',lng:17.9419,lat:59.3544,kind:'airship',zoom:12.4,tag:'AIRSHIP PORT',detail:'Bromma becomes an airship port, giving the map a very natural JRPG travel landmark.'},
+    {name:'Drottningholms slott',lng:17.8869,lat:59.3214,kind:'castle',zoom:12.2,tag:'QUEEN\'S CASTLE',detail:'Drottningholm becomes a more isolated fairy-tale castle, well suited for a world-map icon.'},
+    {name:'Kaknästornet',lng:18.1231,lat:59.3355,kind:'tower',zoom:12.6,tag:'SIGNAL TOWER',detail:'A tall signal tower sprite in the eastern zone.'},
+    {name:'Tyresta nationalpark',lng:18.2666,lat:59.1796,kind:'forestBig',zoom:11.1,tag:'ANCIENT FOREST',detail:'A large forest sprite cluster representing Tyresta, inspired by how SNES maps exaggerated terrain and dense forests.'},
+    {name:'Södertälje',lng:17.6253,lat:59.1955,kind:'port',zoom:10.4,tag:'CANAL CITY',detail:'Södertälje becomes a port-city sprite cluster with dock flavor.'},
+    {name:'Täby',lng:18.0687,lat:59.4439,kind:'townCluster',zoom:10.7,tag:'NORTHEAST FIELDS',detail:'A town cluster sprite for the northeast.'},
+    {name:'Nacka',lng:18.1646,lat:59.3105,kind:'townCluster',zoom:10.7,tag:'EASTERN CLIFFS',detail:'Urban edge and rocky eastward district rendered as a compact town cluster.'},
+    {name:'Haninge',lng:18.1447,lat:59.1685,kind:'townCluster',zoom:10.8,tag:'ARCHIPELAGO GATE',detail:'Southern settlement cluster leading toward the archipelago.'},
+    {name:'Bromma',lng:17.9376,lat:59.3469,kind:'townCluster',zoom:10.8,tag:'WESTERN GATE',detail:'A west-side town cluster anchoring the region visually.'}
   ];
 
-  const icons = {
-    town:`<path fill="#17284a" d="M1 7h14v8H1zM2 4h4v4H2zM10 4h4v4h-4z"/><path fill="#b2a69a" d="M2 8h12v6H2zM3 5h3v4H3zM10 5h3v4h-3z"/><path fill="#b84d4a" d="M1 6l4-4 4 4zM8 6l4-4 4 4z"/><path fill="#314366" d="M7 10h3v4H7zM3 8h2v2H3zM11 8h2v2h-2z"/>`,
-    capital:`<path fill="#14203d" d="M1 7h14v8H1zM3 3h3v5H3zM10 3h3v5h-3zM7 1h2v10H7z"/><path fill="#efcfa3" d="M2 8h12v6H2zM4 4h2v5H4zM10 4h2v5h-2zM7 3h2v6H7z"/><path fill="#c4524d" d="M2 6l3-4 3 4zM8 6l3-4 3 4z"/><path fill="#223553" d="M7 10h2v4H7z"/>`,
-    castle:`<path fill="#182e4a" d="M1 5h3V2h2v3h4V2h2v3h3v10H1z"/><path fill="#ded1b1" d="M2 6h12v8H2zM4 3h2v5H4zM10 3h2v5h-2z"/><path fill="#b95e47" d="M2 5h4L4 2zM9 5h5l-3-3z"/><path fill="#243650" d="M7 10h3v4H7zM3 8h2v2H3zM11 8h2v2h-2z"/>`,
-    cathedral:`<path fill="#182747" d="M2 6h12v8H2zM7 1h2v5H7zM4 4h2v3H4zM10 4h2v3h-2z"/><path fill="#dfe5ef" d="M3 7h10v6H3zM7 2h2v5H7zM4 5h2v2H4zM10 5h2v2h-2z"/><path fill="#91b5d9" d="M8 1l1 1v2H7V2z"/><path fill="#294060" d="M7 9h2v4H7zM4 8h2v2H4zM10 8h2v2h-2z"/>`,
-    forest:`<path fill="#142d3d" d="M7 1h2v2h2v3h2v3h2v2H1V9h2V6h2V3h2z"/><path fill="#387146" d="M7 2h2v2h2v3h2v2H3V7h2V4h2z"/><path fill="#72aa5b" d="M7 3h2v2H7zM6 5h2v2H6z"/><path fill="#6a5138" d="M7 11h3v4H7z"/>`,
-    airship:`<path fill="#1b2843" d="M3 7h9l2 2v3H2V9zM5 5h4l3 2H2zM6 12h2v2H6z"/><path fill="#edd494" d="M4 8h7l1 1v2H3V9zM5 5h4l2 1H3z"/><path fill="#b87949" d="M6 4h2l1 1H5z"/><path fill="#30466c" d="M2 10h1v2H2zM13 10h1v2h-1z"/>`,
-    dome:`<path fill="#19254a" d="M2 8c0-4 3-6 6-6s6 2 6 6v5H2z"/><path fill="#e4ddff" d="M3 8c0-3 2-5 5-5s5 2 5 5v4H3z"/><path fill="#9ea4f0" d="M5 5h2v2H5zM8 4h2v2H8zM7 8h2v2H7z"/><path fill="#314066" d="M6 12h4v1H6z"/>`,
-    tower:`<path fill="#1b2640" d="M5 2h6v3h2v9H3V5h2z"/><path fill="#ddd3b5" d="M6 3h4v3h2v7H4V6h2z"/><path fill="#c65449" d="M5 3l3-2 3 2z"/><path fill="#324868" d="M7 8h2v5H7zM5 7h1v2H5zM10 7h1v2h-1z"/>`,
-    arena:`<path fill="#17284b" d="M2 8h12v5H2zM4 6h8v2H4zM5 4h6v2H5z"/><path fill="#d7c8ad" d="M3 9h10v3H3zM5 7h6v2H5zM6 5h4v2H6z"/><path fill="#bf664b" d="M4 6l2-2h4l2 2z"/><path fill="#32456b" d="M6 9h4v3H6z"/>`,
-    port:`<path fill="#18284a" d="M1 10h14v4H1zM3 4h2v6H3zM7 2h2v8H7zM11 5h2v5h-2z"/><path fill="#dccfaa" d="M2 11h12v2H2zM3 5h2v4H3zM7 3h2v5H7zM11 6h2v3h-2z"/><path fill="#5b91b9" d="M1 9h14v1H1z"/><path fill="#b55e47" d="M2 10l2-1 2 1H2zM10 10l2-1 2 1h-4z"/>`
+  // Small environment sprites to create the overworld illusion on top of the real map.
+  const DECOR=[];
+  function addDecor(kind,lng,lat,scale=1){ DECOR.push({kind,lng,lat,scale}); }
+  function cluster(centerLng,centerLat,kind,count,dx,dy,scale=1,altKind=null){
+    for(let i=0;i<count;i++){
+      const angle=(i/count)*Math.PI*2;
+      const r1=(0.35 + ((i*37)%100)/160) * dx;
+      const r2=(0.35 + ((i*53)%100)/160) * dy;
+      const lng=centerLng+Math.cos(angle)*r1;
+      const lat=centerLat+Math.sin(angle)*r2;
+      addDecor(altKind && i%3===0 ? altKind : kind, lng, lat, scale*(0.9 + (i%4)*0.06));
+    }
+  }
+  // Forest regions
+  cluster(18.115,59.324,'tree',18,0.020,0.010,1.0,'tree2'); // Djurgården
+  cluster(18.263,59.180,'treeBig',28,0.030,0.018,1.15,'tree'); // Tyresta
+  cluster(17.895,59.325,'tree',12,0.018,0.010,0.95,'tree2'); // Ekerö/Drottningholm greenery
+  cluster(18.177,59.365,'tree',16,0.020,0.013,1.0,'tree2'); // Lidingö
+  cluster(18.050,59.405,'tree',12,0.025,0.015,0.95,'tree2'); // North green belt
+  // Urban/town areas
+  cluster(17.970,59.361,'house',12,0.016,0.008,1.0,'house2'); // Sundbyberg/Solna
+  cluster(17.942,59.347,'house',10,0.017,0.008,0.95,'house2'); // Bromma
+  cluster(18.069,59.444,'house',10,0.016,0.010,0.95,'windmill'); // Täby
+  cluster(18.165,59.311,'house',10,0.018,0.009,0.95,'house2'); // Nacka
+  cluster(18.145,59.168,'house',12,0.018,0.010,0.95,'house2'); // Haninge
+  cluster(17.625,59.196,'house',10,0.017,0.009,0.98,'boat'); // Södertälje
+  // Special fillers
+  addDecor('bridge',18.060,59.327,1.0);
+  addDecor('bridge',18.080,59.322,1.0);
+  addDecor('boat',17.990,59.310,1.0);
+  addDecor('boat',18.220,59.280,1.0);
+  addDecor('boat',18.110,59.355,1.0);
+  addDecor('windmill',17.835,59.422,1.0);
+  addDecor('ruin',18.030,59.235,1.0);
+  addDecor('ruin',17.825,59.239,1.0);
+
+  const SPRITES={
+    tree:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#163345" d="M7 1h2v2h2v3h2v2h1v2H2V8h1V6h2V3h2z"/><path fill="#2f6a43" d="M7 2h2v2h2v2h2v2H3V6h2V4h2z"/><path fill="#6ab35d" d="M6 4h2v2H6zM8 3h2v2H8z"/><path fill="#684d34" d="M7 10h2v4H7z"/></svg>`,
+    tree2:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#183347" d="M2 8h2V6h1V4h2V2h2v2h2v2h1v2h2v2H2z"/><path fill="#417a48" d="M3 8h10v1H3zM4 6h8v2H4zM5 4h6v2H5zM6 2h4v2H6z"/><path fill="#7cbf63" d="M6 5h2v1H6zM8 3h2v1H8z"/><path fill="#6c5636" d="M7 9h2v5H7z"/></svg>`,
+    treeBig:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#183347" d="M11 1h2v3h3v3h3v3h2v3h2v3H1v-3h2v-3h2V7h3V4h3z"/><path fill="#2f6a43" d="M11 3h2v3h3v2h3v3h2v2H3v-2h2V8h3V6h3z"/><path fill="#6ab35d" d="M10 7h3v2h-3zM13 5h3v2h-3zM8 9h3v2H8z"/><path fill="#6a5138" d="M10 15h4v7h-4z"/></svg>`,
+    house:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#182949" d="M1 7h14v7H1zM4 4h8v3H4z"/><path fill="#d7c8ae" d="M2 8h12v5H2zM5 5h6v3H5z"/><path fill="#bf5a48" d="M2 7l6-4 6 4z"/><path fill="#36517a" d="M7 9h2v4H7zM4 9h2v2H4zM10 9h2v2h-2z"/></svg>`,
+    house2:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#182949" d="M2 8h12v6H2zM3 5h4v3H3zM9 5h4v3H9z"/><path fill="#d7c8ae" d="M3 9h10v4H3zM4 6h2v2H4zM10 6h2v2h-2z"/><path fill="#d98b49" d="M2 7l3-3 3 3zM8 7l3-3 3 3z"/><path fill="#36517a" d="M7 9h2v4H7z"/></svg>`,
+    castle:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#162748" d="M1 7h4V3h2v3h6V3h2v3h4v12H1z"/><path fill="#e0d4b6" d="M2 8h16v10H2zM5 4h2v4H5zM13 4h2v4h-2z"/><path fill="#b95e47" d="M2 7h5L5 3zM13 7h5l-3-4z"/><path fill="#2f4c74" d="M8 11h4v7H8zM4 10h2v2H4zM14 10h2v2h-2z"/></svg>`,
+    cathedral:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#162748" d="M2 7h16v11H2zM9 1h2v6H9zM5 4h2v3H5zM13 4h2v3h-2z"/><path fill="#dde5f0" d="M3 8h14v9H3zM9 2h2v6H9zM5 5h2v2H5zM13 5h2v2h-2z"/><path fill="#9ab8d7" d="M10 1l1 1v2H9V2z"/><path fill="#314f73" d="M9 10h2v7H9zM5 9h2v2H5zM13 9h2v2h-2z"/></svg>`,
+    tower:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#1b2640" d="M5 2h6v3h2v9H3V5h2z"/><path fill="#ddd3b5" d="M6 3h4v3h2v7H4V6h2z"/><path fill="#c65449" d="M5 3l3-2 3 2z"/><path fill="#324868" d="M7 8h2v5H7zM5 7h1v2H5zM10 7h1v2h-1z"/></svg>`,
+    airship:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 16"><path fill="#1b2843" d="M4 7h11l3 2v3H2V9zM7 4h6l3 2H4z"/><path fill="#edd494" d="M5 8h10l1 1v2H4V9zM7 4h6l2 1H5z"/><path fill="#b87949" d="M8 3h4l1 1H7z"/><path fill="#30466c" d="M2 10h1v2H2zM17 10h1v2h-1zM9 11h2v2H9z"/></svg>`,
+    dome:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><path fill="#19254a" d="M2 9c0-5 3-7 7-7s7 2 7 7v6H2z"/><path fill="#e4ddff" d="M3 9c0-4 2-6 6-6s6 2 6 6v5H3z"/><path fill="#a0a4f0" d="M6 6h2v2H6zM9 5h2v2H9zM8 9h2v2H8z"/><path fill="#314066" d="M7 14h4v1H7z"/></svg>`,
+    arena:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 16"><path fill="#17284b" d="M2 8h14v5H2zM4 6h10v2H4zM5 4h8v2H5z"/><path fill="#d7c8ad" d="M3 9h12v3H3zM5 7h8v2H5zM6 5h6v2H6z"/><path fill="#bf664b" d="M4 6l2-2h6l2 2z"/><path fill="#32456b" d="M7 9h4v3H7z"/></svg>`,
+    port:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 16"><path fill="#18284a" d="M1 10h16v4H1zM4 4h2v6H4zM8 2h2v8H8zM12 5h2v5h-2z"/><path fill="#dccfaa" d="M2 11h14v2H2zM4 5h2v4H4zM8 3h2v5H8zM12 6h2v3h-2z"/><path fill="#5b91b9" d="M1 9h16v1H1z"/><path fill="#b55e47" d="M2 10l2-1 2 1H2zM12 10l2-1 2 1h-4z"/></svg>`,
+    townCluster:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 18"><path fill="#17284a" d="M1 8h8v8H1zM8 7h7v9H8zM13 8h8v8h-8z"/><path fill="#d7c8ae" d="M2 9h6v6H2zM9 8h5v7H9zM14 9h6v6h-6z"/><path fill="#bf5a48" d="M1 8l4-3 4 3zM8 7l4-4 4 4zM13 8l4-3 4 3z"/><path fill="#36517a" d="M4 10h2v5H4zM11 10h1v4h-1zM16 10h2v5h-2z"/></svg>`,
+    capital:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 22"><path fill="#14203d" d="M1 10h24v10H1zM3 6h4v4H3zM10 4h6v6h-6zM19 6h4v4h-4zM12 1h2v9h-2z"/><path fill="#efcfa3" d="M2 11h22v8H2zM4 7h2v3H4zM11 5h4v5h-4zM20 7h2v3h-2z"/><path fill="#c4524d" d="M2 10l4-4 4 4zM8 9l5-5 5 5zM16 10l4-4 4 4z"/><path fill="#223553" d="M12 12h2v7h-2zM6 11h1v2H6zM19 11h1v2h-1z"/></svg>`,
+    boat:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 12"><path fill="#1b2947" d="M2 8h12l-2 3H4z"/><path fill="#d8cda6" d="M3 8h10l-2 2H5z"/><path fill="#284a78" d="M7 2h1v6H7z"/><path fill="#f6efcc" d="M8 2l4 3H8z"/><path fill="#5b91b9" d="M1 11h14v1H1z"/></svg>`,
+    bridge:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 12"><path fill="#30466c" d="M1 8h18v2H1z"/><path fill="#d8cda6" d="M2 7h16v1H2z"/><path fill="#916945" d="M3 9h1v2H3zM8 9h1v2H8zM12 9h1v2h-1zM16 9h1v2h-1z"/></svg>`,
+    windmill:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#d9cda8" d="M7 7h2v7H7z"/><path fill="#7f5e3d" d="M6 14h4v1H6z"/><path fill="#183248" d="M7 2h2v5H7z"/><path fill="#f2ead0" d="M8 1l1 2-1 1-1-1zM14 8l-2 1-1-1 1-1zM8 15l-1-2 1-1 1 1zM1 8l2-1 1 1-1 1z"/></svg>`,
+    ruin:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#182949" d="M2 8h12v6H2zM4 5h2v3H4zM9 4h3v4H9z"/><path fill="#a6a098" d="M3 9h10v4H3zM4 6h1v2H4zM10 5h1v3h-1z"/><path fill="#5a4e46" d="M6 8h1v5H6zM8 8h1v5H8z"/></svg>`
   };
 
-  const el = id => document.getElementById(id);
-  const state = { map:null, pixelScale:4, userLngLat:null, renderQueued:false, mode7:false, showLabels:true };
+  const el=id=>document.getElementById(id);
+  const state={ map:null, pixelScale:4, showDecor:true, showBanners:true, mode7:false, userLngLat:null, renderQueued:false };
+  const decorNodes=[]; const landmarkNodes=[];
 
   function status(msg,bad=false){ el('statusText').textContent=msg; el('statusLight').style.background=bad?'#dd8c62':'#8dcf75'; }
-  function info(name,description,tag='QUEST UPDATED'){ el('placeName').textContent=name; el('placeDesc').textContent=description; el('placeTag').textContent=tag; }
-  function makeIcon(kind){ return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">${icons[kind] || icons.town}</svg>`; }
+  function info(name,desc,tag='QUEST UPDATED'){ el('placeName').textContent=name; el('placeDesc').textContent=desc; el('questTag').textContent=tag; }
+  function spriteMarkup(kind){ return SPRITES[kind] || SPRITES.house; }
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
 
-  const placeElements=[];
-  for(const p of PLACES){
-    const node=document.createElement('button');
-    node.type='button';
-    node.className='place'+(p.landmark?' landmark':'');
-    node.title=p.name; node.setAttribute('aria-label','Besök '+p.name);
-    node.innerHTML=makeIcon(p.kind)+'<span></span>';
-    node.querySelector('span').textContent=p.name;
-    node.style.display='none';
-    node.addEventListener('click',()=>travel(p));
-    el('places').appendChild(node);
-    placeElements.push({p,node});
-    const opt=document.createElement('option'); opt.value=p.name; el('destinations').appendChild(opt);
+  function makeNode(item, landmark=false){
+    const node=document.createElement(landmark?'button':'div');
+    if(landmark){ node.type='button'; node.className='sprite landmark '+item.kind; node.title=item.name; node.setAttribute('aria-label','Go to '+item.name); }
+    else { node.className='sprite deco '+item.kind; }
+    node.innerHTML = spriteMarkup(item.kind) + (item.name ? `<span class="banner">${item.name}</span>` : '');
+    const box = spriteBox(item.kind);
+    node.style.width=box[0]+'px'; node.style.height=box[1]+'px';
+    return node;
+  }
+  function spriteBox(kind){
+    const sizes={ tree:[18,18], tree2:[18,18], treeBig:[24,24], house:[18,18], house2:[18,18], castle:[24,24], cathedral:[24,24], tower:[20,22], airship:[24,18], dome:[22,22], arena:[24,20], port:[24,20], townCluster:[28,22], capital:[32,24], boat:[18,14], bridge:[22,12], windmill:[18,18], ruin:[18,18], forestBig:[28,28] };
+    return sizes[kind] || [18,18];
   }
 
+  for(const d of DECOR){ const n=makeNode(d,false); el('decor').appendChild(n); decorNodes.push({d,node:n}); }
+  for(const p of LANDMARKS){
+    const n=makeNode(p,true); el('landmarks').appendChild(n); landmarkNodes.push({p,node:n});
+    n.addEventListener('click',()=>travel(p));
+    const opt=document.createElement('option'); opt.value=p.name; el('destinations').appendChild(opt);
+  }
   const quick=['Stockholms slott','Globen','Bromma flygplats','Drottningholms slott','Tyresta nationalpark','Södertälje'];
   for(const name of quick){
-    const p = PLACES.find(item=>item.name===name);
-    if(!p) continue;
-    const b=document.createElement('button'); b.textContent=name; b.type='button'; b.onclick=()=>travel(p); el('shortcuts').appendChild(b);
+    const p=LANDMARKS.find(x=>x.name===name); if(!p) continue;
+    const b=document.createElement('button'); b.type='button'; b.textContent=name; b.onclick=()=>travel(p); el('quickrow').appendChild(b);
   }
 
   function travel(p){
     if(!state.map) return;
-    const zoom = Math.max(12.1, p.zoom + (p.landmark ? 0.4 : 0.25));
-    state.map.flyTo({ center:[p.lng,p.lat], zoom, essential:true, speed:0.8, curve:1.35, pitch: state.mode7 ? MODE7_VIEW.pitch : 0, bearing: state.mode7 ? MODE7_VIEW.bearing : 0 });
-    info(p.name,p.detail,p.tag || 'QUEST UPDATED');
+    const zoom=Math.max(12.2,p.zoom+0.25);
+    state.map.flyTo({center:[p.lng,p.lat], zoom, essential:true, speed:0.82, curve:1.35, pitch:state.mode7?MODE7_VIEW.pitch:0, bearing:state.mode7?MODE7_VIEW.bearing:0});
+    info(p.name,p.detail,p.tag||'QUEST UPDATED');
     el('search').value=p.name;
   }
 
-  function updatePlaces(){
-    if(!state.map) return;
-    const width=el('map').clientWidth, height=el('map').clientHeight, z=state.map.getZoom(), occupied=[];
-    const priority=[...placeElements].sort((a,b)=> {
-      const pa=(a.p.landmark?0:1)+(a.p.kind==='capital'?-1:0); const pb=(b.p.landmark?0:1)+(b.p.kind==='capital'?-1:0);
-      return pa-pb || a.p.zoom-b.p.zoom;
-    });
-    for(const {p,node} of priority){
-      const pos=state.map.project([p.lng,p.lat]);
-      const lowerBoundary = state.mode7 ? height-54 : height-75;
-      const upperBoundary = state.mode7 ? 92 : 80;
-      const vis = z>=p.zoom && pos.x>0 && pos.x<width && pos.y>upperBoundary && pos.y<lowerBoundary;
-      if(!vis || (!state.showLabels && !p.landmark && p.kind!=='capital')) { node.style.display='none'; continue; }
-      const half = Math.max(p.landmark?58:48, p.name.length*5.8);
-      const rect={ l:pos.x-half, r:pos.x+half, t:pos.y-(p.landmark?66:60), b:pos.y };
-      const collision=occupied.some(o=>rect.l<o.r && rect.r>o.l && rect.t<o.b && rect.b>o.t);
-      if(collision){ node.style.display='none'; continue; }
-      occupied.push(rect);
-      node.style.display='flex'; node.style.left=pos.x+'px'; node.style.top=pos.y+'px';
+  function updateOverlayPosition(item,node,isLandmark){
+    const pos=state.map.project([item.lng,item.lat]);
+    const height=el('map').clientHeight, width=el('map').clientWidth, z=state.map.getZoom();
+    const minZ=isLandmark?item.zoom:9.6;
+    const visible=z>=minZ && pos.x>-40 && pos.x<width+40 && pos.y>48 && pos.y<height-42;
+    if(!visible || (!state.showDecor && !isLandmark)){ node.style.display='none'; return null; }
+    const yFactor=clamp(pos.y/height,0,1);
+    const zoomFactor=clamp((z-9.6)/5.5,0.75,1.4);
+    const perspective=state.mode7 ? clamp(0.62 + yFactor*1.05,0.62,1.65) : clamp(0.88 + yFactor*0.22,0.86,1.18);
+    const base=item.scale || 1;
+    const scale=base*zoomFactor*perspective*(isLandmark?1.06:1.0);
+    node.style.display='block';
+    node.style.left=pos.x+'px'; node.style.top=pos.y+'px';
+    node.style.transform=`translate(-50%,-100%) scale(${scale.toFixed(3)})`;
+    node.style.opacity=(state.mode7 ? clamp(0.58 + yFactor*0.55,0.58,1) : 1).toFixed(2);
+    if(item.name){
+      const showLabel = state.showBanners && (isLandmark || item.kind==='capital' || item.kind==='townCluster');
+      const banner=node.querySelector('.banner'); if(banner) banner.style.display = showLabel ? '' : 'none';
     }
+    return {x:pos.x,y:pos.y,scale};
+  }
+
+  function updateOverlays(){
+    if(!state.map) return;
+    const occupied=[];
+    // landmarks first with collision handling on their banner/body footprint
+    const sorted=[...landmarkNodes].sort((a,b)=>(a.p.kind==='capital'?-1:0)-(b.p.kind==='capital'?-1:0) || a.p.zoom-b.p.zoom);
+    for(const {p,node} of sorted){
+      const out=updateOverlayPosition(p,node,true);
+      if(!out) continue;
+      const w=(spriteBox(p.kind)[0]*out.scale)+(state.showBanners?Math.max(42,p.name.length*3.8):0);
+      const h=spriteBox(p.kind)[1]*out.scale + (state.showBanners?16:0);
+      const rect={l:out.x-w/2,r:out.x+w/2,t:out.y-h,b:out.y};
+      const collide=occupied.some(o=>rect.l<o.r&&rect.r>o.l&&rect.t<o.b&&rect.b>o.t);
+      if(collide && p.kind!=='capital'){ node.style.display='none'; continue; }
+      occupied.push(rect);
+    }
+    // decor without collision, but sorted by y for better painter's order
+    for(const {d,node} of decorNodes){ updateOverlayPosition(d,node,false); }
+    decorNodes.sort((a,b)=>state.map.project([a.d.lng,a.d.lat]).y - state.map.project([b.d.lng,b.d.lat]).y);
+    decorNodes.forEach(({node},i)=>{ node.style.zIndex = String(100+i); });
     if(state.userLngLat){
       const pos=state.map.project(state.userLngLat);
-      el('player').style.left=pos.x+'px'; el('player').style.top=pos.y+'px';
+      const yn=clamp(pos.y/el('map').clientHeight,0,1);
+      const s=state.mode7 ? clamp(0.8+yn*0.9,0.8,1.55) : 1;
+      const player=el('player'); player.style.display='block'; player.style.left=pos.x+'px'; player.style.top=pos.y+'px'; player.style.transform=`translate(-50%,-100%) scale(${s.toFixed(3)})`;
     }
   }
 
   function pixelate(){
-    state.renderQueued=false;
-    if(!state.map) return;
+    state.renderQueued=false; if(!state.map) return;
     const canvas=el('pixel');
     if(state.pixelScale===1){ canvas.style.display='none'; return; }
     canvas.style.display='block';
@@ -295,150 +368,112 @@
     const h=Math.max(1,Math.round(el('map').clientHeight/state.pixelScale));
     if(canvas.width!==w||canvas.height!==h){ canvas.width=w; canvas.height=h; }
     const ctx=canvas.getContext('2d',{alpha:false}); ctx.imageSmoothingEnabled=false;
-    try { ctx.drawImage(state.map.getCanvas(),0,0,w,h); }
-    catch(e){ console.warn('Pixel canvas:',e); canvas.style.display='none'; }
+    try{ ctx.drawImage(state.map.getCanvas(),0,0,w,h); }catch(e){ console.warn('Pixel canvas:',e); canvas.style.display='none'; }
   }
-  function schedulePixel(){ if(!state.renderQueued){ state.renderQueued=true; requestAnimationFrame(pixelate); } }
-  function refresh(){ updatePlaces(); schedulePixel(); }
+
+  function pixelateFX(){
+    if(!state.showDecor) { el('pixelFX').style.display='none'; return; }
+    const srcContainer = el('decor');
+    const canvas=el('pixelFX'); canvas.style.display='block';
+    const scale = state.pixelScale===1 ? 2 : Math.max(2,state.pixelScale);
+    const w=Math.max(1,Math.round(el('map').clientWidth/scale));
+    const h=Math.max(1,Math.round(el('map').clientHeight/scale));
+    if(canvas.width!==w||canvas.height!==h){ canvas.width=w; canvas.height=h; }
+    const ctx=canvas.getContext('2d',{alpha:true});
+    ctx.clearRect(0,0,w,h); ctx.imageSmoothingEnabled=false;
+    // lightweight fake pixel shading grid under decor field
+    ctx.fillStyle='rgba(0,0,0,0.08)';
+    for(let y=0;y<h;y+=3){ ctx.fillRect(0,y,w,1); }
+  }
+
+  function scheduleFrame(){ if(!state.renderQueued){ state.renderQueued=true; requestAnimationFrame(()=>{ pixelate(); pixelateFX(); updateOverlays(); state.renderQueued=false; }); } }
 
   function createStyle(origin){
     const srcId=Object.keys(origin.sources).find(id=>origin.sources[id] && origin.sources[id].type==='vector');
-    if(!srcId) throw Error('Kartan saknar vektorkälla');
+    if(!srcId) throw Error('Map is missing vector source');
     const src=srcId;
     const layer=(id,type,layerName,paint,layout,filter,minzoom,maxzoom)=>({id,type,source:src,'source-layer':layerName,...(filter?{filter}:{}),...(minzoom!==undefined?{minzoom}:{}),...(maxzoom!==undefined?{maxzoom}:{}),paint,...(layout?{layout}:{})});
-    const line=(id,lay,color,w,minzoom,filter)=>layer(id,'line',lay,{'line-color':color,'line-width':w,'line-opacity':0.96},{'line-cap':'square','line-join':'miter'},filter,minzoom);
-    const f=(id,lay,col,opacity=1,filter)=>layer(id,'fill',lay,{'fill-color':col,'fill-opacity':opacity},null,filter);
+    const line=(id,lay,color,w,minzoom,filter)=>layer(id,'line',lay,{'line-color':color,'line-width':w,'line-opacity':0.97},{'line-cap':'square','line-join':'miter'},filter,minzoom);
+    const fill=(id,lay,col,opacity=1,filter)=>layer(id,'fill',lay,{'fill-color':col,'fill-opacity':opacity},null,filter);
     const classIs=names=>['in',['get','class'],['literal',names]];
     const matchLabel=['coalesce',['get','name:sv'],['get','name'],''];
-    const layers=[
-      {id:'rpg-ground',type:'background',paint:{'background-color':'#95bb69'}},
-      f('rpg-landcover','landcover',['match',['get','class'],'wood','#3e7044','grass','#84b866','farmland','#b8b66d','ice','#c1d8ce','sand','#d4c085','#99b56a'],0.95),
-      f('rpg-landuse','landuse',['match',['get','class'],'forest','#366945','park','#5f9c58','grass','#8dbe6f','cemetery','#62876a','residential','#a7b584','industrial','#bbab90','commercial','#c7ae90','farmland','#c0bb74','#a7bf80'],0.92),
-      f('rpg-water','water','#2e699a'),
-      line('rpg-water-outline','waterway','#204f7a',['interpolate',['linear'],['zoom'],9,0.8,14,4.2]),
-      line('rpg-waterway','waterway','#70a7c6',['interpolate',['linear'],['zoom'],9,0.35,14,2.2]),
-      f('rpg-buildings-shadow','building','#677456',0.96),
-      line('rpg-buildings-outline','building','#4f5c45',['interpolate',['linear'],['zoom'],11,0.35,15,1.4],13),
-      f('rpg-buildings','building','#ebca95',0.97),
-      line('rpg-path-outline','transportation','#58664d',['interpolate',['linear'],['zoom'],10,0.4,15,4.3],11,classIs(['path','track','footway','pedestrian'])),
-      line('rpg-path','transportation','#ead59c',['interpolate',['linear'],['zoom'],10,0.22,15,2.5],11,classIs(['path','track','footway','pedestrian'])),
-      line('rpg-road-outline','transportation','#5e635d',['interpolate',['linear'],['zoom'],9,1.0,12,3.5,16,8.3]),
-      line('rpg-road','transportation','#e7d1a1',['interpolate',['linear'],['zoom'],9,0.5,12,2.1,16,5.1]),
-      line('rpg-primary-outline','transportation','#786b4c',['interpolate',['linear'],['zoom'],9,1.8,12,6,16,12.5],10,classIs(['primary','trunk','motorway'])),
-      line('rpg-primary-road','transportation','#dfad77',['interpolate',['linear'],['zoom'],9,1,12,3.6,16,8.3],10,classIs(['primary','trunk','motorway'])),
-      layer('rpg-neighborhood-labels','symbol','place',{
-        'text-color':'#223653','text-halo-color':'#f1dfb3','text-halo-width':1.6
-      },{
-        'text-field':matchLabel,
-        'text-font':['Noto Sans Regular'],
-        'text-size':['interpolate',['linear'],['zoom'],9,10,13,12,16,14],
-        'text-optional':true,
-        'text-transform':'none'
-      },['in',['get','class'],['literal',['suburb','quarter','neighbourhood','city','town']]],10.5),
-      layer('rpg-street-labels','symbol','transportation_name',{'text-color':'#253752','text-halo-color':'#e9d9ad','text-halo-width':1.4},{'symbol-placement':'line','text-field':matchLabel,'text-font':['Noto Sans Regular'],'text-size':['interpolate',['linear'],['zoom'],13,9,16,12],'text-rotation-alignment':'map','text-max-angle':30},null,13.6)
-    ];
-    return {version:8,name:'Stockholm World of Pixels',sources:origin.sources,glyphs:origin.glyphs,sprite:origin.sprite,layers,center:STOCKHOLM,zoom:ZOOM_START};
+    return {
+      version:8, name:'Stockholm World of Pixels', sources:origin.sources, glyphs:origin.glyphs, sprite:origin.sprite, center:STOCKHOLM, zoom:ZOOM_START,
+      layers:[
+        {id:'bg',type:'background',paint:{'background-color':'#95bb69'}},
+        fill('landcover','landcover',['match',['get','class'],'wood','#3c6e44','grass','#86b96a','farmland','#b9b56c','ice','#bfd6cc','sand','#d5c084','#9db76e'],0.96),
+        fill('landuse','landuse',['match',['get','class'],'forest','#356846','park','#5b9858','grass','#89bc70','cemetery','#67886d','residential','#a9b684','industrial','#b5ad94','commercial','#c7ae90','farmland','#c0bb74','#a8bf80'],0.92),
+        fill('water','water','#2d6a9a'),
+        line('waterOutline','waterway','#24557d',['interpolate',['linear'],['zoom'],9,0.8,14,4.1]),
+        line('waterline','waterway','#6fa8c6',['interpolate',['linear'],['zoom'],9,0.35,14,2.2]),
+        fill('buildingShadow','building','#6b775c',0.92),
+        line('buildingOutline','building','#526148',['interpolate',['linear'],['zoom'],11,0.35,15,1.3],13),
+        fill('building','building','#ebcb98',0.97),
+        line('pathOutline','transportation','#5d6a53',['interpolate',['linear'],['zoom'],10,0.35,15,4.2],11,classIs(['path','track','footway','pedestrian'])),
+        line('path','transportation','#ead79d',['interpolate',['linear'],['zoom'],10,0.2,15,2.4],11,classIs(['path','track','footway','pedestrian'])),
+        line('roadOutline','transportation','#61665f',['interpolate',['linear'],['zoom'],9,1.0,12,3.4,16,8.1]),
+        line('road','transportation','#e7d2a2',['interpolate',['linear'],['zoom'],9,0.5,12,2.1,16,5.1]),
+        line('mainRoadOutline','transportation','#7a6d4e',['interpolate',['linear'],['zoom'],9,1.8,12,5.9,16,12.4],10,classIs(['primary','trunk','motorway'])),
+        line('mainRoad','transportation','#dfad77',['interpolate',['linear'],['zoom'],9,1,12,3.5,16,8.2],10,classIs(['primary','trunk','motorway'])),
+        layer('placeLabels','symbol','place',{'text-color':'#203652','text-halo-color':'#eddcb0','text-halo-width':1.5},{'text-field':matchLabel,'text-font':['Noto Sans Regular'],'text-size':['interpolate',['linear'],['zoom'],9.5,10,14,13],'text-optional':true},['in',['get','class'],['literal',['suburb','quarter','neighbourhood','city','town']]],10.7),
+        layer('streetLabels','symbol','transportation_name',{'text-color':'#223753','text-halo-color':'#ebd9ae','text-halo-width':1.25},{'symbol-placement':'line','text-field':matchLabel,'text-font':['Noto Sans Regular'],'text-size':['interpolate',['linear'],['zoom'],13,9,16,12],'text-rotation-alignment':'map','text-max-angle':30},null,13.7)
+      ]
+    };
   }
 
-  function setMode7(on, animate=true){
-    state.mode7=on;
-    document.body.classList.toggle('mode7', on);
-    el('mode7').classList.toggle('mode7-on', on);
-    el('mode7').title = on ? 'Stäng av Mode 7-läge' : 'Slå på Mode 7-läge';
-    if(state.map){
-      const params = on ? {pitch:MODE7_VIEW.pitch,bearing:MODE7_VIEW.bearing} : {pitch:0,bearing:0};
-      const action = animate ? 'easeTo' : 'jumpTo';
-      state.map[action]({ ...params, duration: animate ? 900 : 0, essential:true });
-    }
-    status(on ? 'Mode 7-läge aktivt · pseudo-SNES-perspektiv' : 'Vanlig världskarta aktiv');
-    const currentName = el('placeName').textContent;
-    if(currentName === 'Välkommen till Stockholm!'){
-      info('Välkommen till Stockholm!', on ? 'Mode 7-läget är nu aktivt. Kartan lutas för att emulera SNES-känsla, men geografin är fortfarande riktig.' : 'Utforska stadens riktiga geografi som en 16-bitars RPG-värld. Nu med världsobjekt, specialplatser och ett pseudo-Mode-7-läge.', on ? 'MODE 7: ON' : 'REGION STATUS: READY FOR ADVENTURE');
-    } else {
-      el('placeTag').textContent = on ? 'MODE 7: ON' : el('placeTag').textContent.replace('MODE 7: ON','QUEST UPDATED');
-    }
-    refresh();
-  }
-
-  function toggleLabels(){
-    state.showLabels=!state.showLabels;
-    el('toggleLabels').textContent = state.showLabels ? 'LANDMARKS PÅ' : 'LANDMARKS AV';
-    refresh();
+  function setMode7(on,animate=true){
+    state.mode7=on; document.body.classList.toggle('mode7',on); el('mode7').classList.toggle('mode7-on',on);
+    if(state.map){ const p=on?{pitch:MODE7_VIEW.pitch,bearing:MODE7_VIEW.bearing}:{pitch:0,bearing:0}; state.map[animate?'easeTo':'jumpTo']({...p,duration:animate?900:0,essential:true}); }
+    status(on?'Mode 7 active · stronger sprite perspective':'Classic map active');
+    if(el('placeName').textContent==='Stockholm Region') info('Stockholm Region', on ? 'Mode 7 now tilts the world and scales the environment sprites by perspective to create a stronger SNES-style illusion.' : 'Real geography under the hood, but now dressed with environment sprites and stronger pseudo‑Mode‑7 presentation.', on?'MODE 7: ON':'STATUS: READY FOR ADVENTURE');
+    scheduleFrame();
   }
 
   async function init(){
-    if(typeof maplibregl==='undefined'){ error('Kartbiblioteket kunde inte laddas. Kontrollera internetanslutningen.'); return; }
+    if(typeof maplibregl==='undefined'){ error('The map library could not load.'); return; }
     let style='https://tiles.openfreemap.org/styles/liberty';
-    try {
-      const r=await fetch(style); if(!r.ok) throw Error('HTTP '+r.status);
-      style=createStyle(await r.json());
-    } catch(err) {
-      console.warn('Custom pixel theme failed, using fallback map style',err);
-      status('Basstil används som reserv',true);
-    }
-    try {
-      state.map=new maplibregl.Map({
-        container:'map', style, center:STOCKHOLM, zoom:ZOOM_START,
-        minZoom:8.5, maxZoom:18, pitch:0, bearing:0, maxPitch:70,
-        dragRotate:false, touchPitch:false, preserveDrawingBuffer:true,
-        attributionControl:true, renderWorldCopies:false
-      });
-      state.map.on('load',()=>{ status('Världskartan är redo · riktig geografi + spelvärld'); refresh(); });
-      state.map.on('render',schedulePixel);
-      state.map.on('move',updatePlaces);
-      state.map.on('zoomend',refresh);
-      state.map.on('resize',refresh);
-      state.map.on('pitchend',refresh);
-      state.map.on('rotateend',refresh);
+    try{ const r=await fetch(style); if(!r.ok) throw Error('HTTP '+r.status); style=createStyle(await r.json()); }
+    catch(err){ console.warn('Custom style failed, using fallback.',err); status('Fallback map style active',true); }
+    try{
+      state.map=new maplibregl.Map({container:'map',style,center:STOCKHOLM,zoom:ZOOM_START,minZoom:8.4,maxZoom:18,pitch:0,bearing:0,maxPitch:70,dragRotate:false,touchPitch:false,preserveDrawingBuffer:true,attributionControl:true,renderWorldCopies:false});
+      state.map.on('load',()=>{ status('World map ready · sprite illusion online'); updateOverlays(); scheduleFrame(); });
+      state.map.on('render',scheduleFrame);
+      state.map.on('move',updateOverlays);
+      state.map.on('zoomend',scheduleFrame);
+      state.map.on('pitchend',scheduleFrame);
+      state.map.on('rotateend',scheduleFrame);
+      state.map.on('resize',scheduleFrame);
       state.map.on('error',e=>{ console.warn('Map tile/style error:',e.error); });
-      state.map.on('click',e=>{
-        const lng=e.lngLat.lng,lat=e.lngLat.lat;
-        info('Okänd plats',`Position: ${lat.toFixed(5)}° N, ${lng.toFixed(5)}° E. En ny plats att förvandla till nästa världsobjekt!`,'FIELD EVENT');
-      });
+      state.map.on('click',e=> info('Unknown Tile',`Coordinates: ${e.lngLat.lat.toFixed(5)}° N, ${e.lngLat.lng.toFixed(5)}° E. This can become a new sprite landmark later.`,'FIELD EVENT'));
       document.addEventListener('visibilitychange',()=>{ if(!document.hidden && state.map) state.map.resize(); });
-    } catch(err) { error('Fel när kartan startades: '+err.message); }
+    }catch(err){ error('Error starting map: '+err.message); }
   }
 
-  function error(msg){ el('warning').style.display='block'; el('warningText').textContent=msg; status('Kartan kunde inte laddas',true); }
+  function error(msg){ el('warning').style.display='block'; el('warningText').textContent=msg; status('Map failed to load',true); }
 
   el('searchForm').addEventListener('submit',e=>{
     e.preventDefault();
     const q=el('search').value.trim().toLocaleLowerCase('sv');
-    const p=PLACES.find(p=>p.name.toLocaleLowerCase('sv')===q)||PLACES.find(p=>p.name.toLocaleLowerCase('sv').includes(q));
-    if(p&&q) travel(p);
-    else info('Plats saknas','Den här versionen söker bland våra fördefinierade Stockholmsplatser och landmärken. Testa till exempel Globen, Stockholms slott eller Bromma flygplats.','SEARCH FAILED');
+    const p=LANDMARKS.find(p=>p.name.toLocaleLowerCase('sv')===q) || LANDMARKS.find(p=>p.name.toLocaleLowerCase('sv').includes(q));
+    if(p&&q) travel(p); else info('Location not found','This version searches the built-in world-map landmarks. Try Globen, Stockholms slott, Bromma flygplats or Tyresta nationalpark.','SEARCH FAILED');
     el('search').blur();
   });
-
   el('zoomIn').onclick=()=>state.map&&state.map.zoomIn();
   el('zoomOut').onclick=()=>state.map&&state.map.zoomOut();
-  el('reset').onclick=()=>{
-    if(state.map){
-      state.map.flyTo({center:STOCKHOLM,zoom:ZOOM_START,pitch:state.mode7?MODE7_VIEW.pitch:0,bearing:state.mode7?MODE7_VIEW.bearing:0});
-      info('Stockholm','Tillbaka vid världskartans startpunkt. Stockholm ligger nu åter i centrum av världen.',state.mode7?'MODE 7: ON':'WORLD RESET');
-      el('search').value='';
-    }
-  };
-  el('togglePixel').onclick=()=>{
-    state.pixelScale=state.pixelScale===4?6:state.pixelScale===6?2:state.pixelScale===2?1:4;
-    el('togglePixel').textContent=state.pixelScale===1?'PIXEL AV':'PIXEL '+state.pixelScale+'×';
-    schedulePixel();
-  };
-  el('toggleLabels').onclick=toggleLabels;
+  el('reset').onclick=()=>{ if(state.map){ state.map.flyTo({center:STOCKHOLM,zoom:ZOOM_START,pitch:state.mode7?MODE7_VIEW.pitch:0,bearing:state.mode7?MODE7_VIEW.bearing:0}); info('Stockholm Region','Returned to the default world-map view over the Stockholm region.',state.mode7?'MODE 7: ON':'WORLD RESET'); el('search').value=''; } };
+  el('togglePixel').onclick=()=>{ state.pixelScale=state.pixelScale===4?6:state.pixelScale===6?2:state.pixelScale===2?1:4; el('togglePixel').textContent=state.pixelScale===1?'PIXEL OFF':'PIXEL '+state.pixelScale+'×'; scheduleFrame(); };
+  el('toggleDecor').onclick=()=>{ state.showDecor=!state.showDecor; el('toggleDecor').textContent=state.showDecor?'SPRITES ON':'SPRITES OFF'; el('decor').style.display=state.showDecor?'block':'none'; scheduleFrame(); };
+  el('toggleBanners').onclick=()=>{ state.showBanners=!state.showBanners; el('toggleBanners').textContent=state.showBanners?'NAMES ON':'NAMES OFF'; updateOverlays(); };
   el('mode7').onclick=()=>setMode7(!state.mode7,true);
   el('locate').onclick=()=>{
-    if(!navigator.geolocation){ info('Position','Din webbläsare stöder inte platstjänster.','GPS UNAVAILABLE'); return; }
-    status('Letar efter din position...');
+    if(!navigator.geolocation){ info('Location unavailable','Your browser does not support geolocation.','GPS FAILED'); return; }
+    status('Locating hero...');
     navigator.geolocation.getCurrentPosition(({coords})=>{
-      state.userLngLat=[coords.longitude,coords.latitude]; el('player').style.display='block';
-      state.map.flyTo({center:state.userLngLat,zoom:14.4,pitch:state.mode7?MODE7_VIEW.pitch:0,bearing:state.mode7?MODE7_VIEW.bearing:0});
-      refresh();
-      info('Du är här!',`GPS-position: ${coords.latitude.toFixed(5)}° N, ${coords.longitude.toFixed(5)}° E. Din hjälte står nu på den riktiga världskartan.`,state.mode7?'MODE 7: ON':'PLAYER POSITION');
-      status('Position hittad · world map aktiv');
-    },()=>{
-      status('Platsåtkomst misslyckades',true);
-      info('Ingen position','Tillåt platsåtkomst i webbläsaren och öppna sidan via HTTPS eller localhost.','GPS FAILED');
-    },{enableHighAccuracy:true,timeout:12000,maximumAge:45000});
+      state.userLngLat=[coords.longitude,coords.latitude];
+      state.map.flyTo({center:state.userLngLat,zoom:14.5,pitch:state.mode7?MODE7_VIEW.pitch:0,bearing:state.mode7?MODE7_VIEW.bearing:0});
+      info('Player Position',`GPS position: ${coords.latitude.toFixed(5)}° N, ${coords.longitude.toFixed(5)}° E. A small player sprite is now placed on the world map.`,'PLAYER ACTIVE');
+      status('Hero position found'); scheduleFrame();
+    },()=>{ status('Location failed',true); info('No position','Allow location access and use HTTPS or localhost.','GPS FAILED'); },{enableHighAccuracy:true,timeout:12000,maximumAge:45000});
   };
 
   init();
